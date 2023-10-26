@@ -14,6 +14,12 @@ namespace EzPasswordManager.Views.ViewPopup
             viewModel = passwordsViewModel;
         }
 
+        public AddPasswordPopupView()
+        {
+            InitializeComponent();
+
+            viewModel = new PasswordsViewModel();
+        }
 
         private void CancelAddPasswordClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
