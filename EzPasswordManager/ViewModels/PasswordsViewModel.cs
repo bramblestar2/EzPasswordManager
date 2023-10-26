@@ -1,4 +1,5 @@
 ﻿using EzPasswordManager.DataTypes;
+using EzPasswordManager.Views.ViewPopup;
 using Newtonsoft.Json;
 using ReactiveUI;
 using System;
@@ -12,6 +13,13 @@ namespace EzPasswordManager.ViewModels
 {
     public class PasswordsViewModel : ViewModelBase
     {
+        private AddPasswordPopupView _addPasswordPopupView;
+        public AddPasswordPopupView AddPasswordPopupView
+        {
+            get => _addPasswordPopupView;
+            set => this.RaiseAndSetIfChanged(ref _addPasswordPopupView, value);
+        }
+
         private ObservableCollection<PasswordInfoStructure> _passwords;
         public ObservableCollection<PasswordInfoStructure> Passwords
         {
@@ -54,9 +62,10 @@ namespace EzPasswordManager.ViewModels
                 x => x.AddPasswordInfo.DisplayName,
                 x => x.AddPasswordInfo.Username,
                 x => x.AddPasswordInfo.Password,
-                x => x.AddPasswordInfo.Email,
-                x => x.AddPasswordInfo.Website,
-                (Displayname, Username, Password, Email, Website) => (!string.IsNullOrWhiteSpace(Displayname))
+                (Displayname, Username, Password) => 
+                     !string.IsNullOrWhiteSpace(Displayname) ||
+                     !string.IsNullOrWhiteSpace(Username) ||
+                     !string.IsNullOrWhiteSpace(Password)
                 );
 
             CreatePasswordCommand = ReactiveCommand.Create(() =>
@@ -64,7 +73,7 @@ namespace EzPasswordManager.ViewModels
                 this.AddPasswordsVisible = false;
                 this.AddPassword(AddPasswordInfo);
                 this.AddPasswordInfo = new DataTypes.PasswordInfoStructure();
-            });
+            }, canCreatePassword);
         }
 
         public void CreateAccount(string username, string directory)

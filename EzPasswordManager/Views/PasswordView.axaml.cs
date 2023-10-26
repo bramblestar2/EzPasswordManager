@@ -1,13 +1,7 @@
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
-using DynamicData;
 using EzPasswordManager.ViewModels;
-using Newtonsoft.Json;
-using ReactiveUI;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.CompilerServices;
+using EzPasswordManager.Views.ViewPopup;
 
 namespace EzPasswordManager.Views
 {
@@ -36,6 +30,8 @@ namespace EzPasswordManager.Views
             _currentUsername = username;
 
             viewModel.LoadPasswords(username, directory);
+
+            viewModel.AddPasswordPopupView = new AddPasswordPopupView(viewModel);
         }
 
         protected override void OnUnloaded(RoutedEventArgs e)
