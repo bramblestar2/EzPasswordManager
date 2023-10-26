@@ -1,0 +1,16 @@
+[
+  {
+    "DisplayName": "DISPLAYNAME",
+    "Email": "EMAIL",
+    "Username": "USERNAME",
+    "Password": "PASSWORD",
+    "Website": "WEBSITE"
+  },
+  {
+    "DisplayName": "Hello",
+    "Email": "are",
+    "Username": "world",
+    "Password": "how",
+    "Website": "you"
+  }
+]
