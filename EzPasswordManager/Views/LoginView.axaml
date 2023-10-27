@@ -1,0 +1,18 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:EzPasswordManager.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+             x:Class="EzPasswordManager.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+  <Border>
+    <Grid VerticalAlignment="Center"
+          Margin="50"
+          RowDefinitions="Auto,Auto,Auto">
+      <TextBox Grid.Row="0" Margin="10" Watermark="Username"/>
+      <TextBox Grid.Row="1" Margin="10" Watermark="Password"/>
+      <Button Grid.Row="2" Content="Login" Padding="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+    </Grid>
+  </Border>
+</UserControl>

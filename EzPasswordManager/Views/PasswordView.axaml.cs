@@ -30,8 +30,6 @@ namespace EzPasswordManager.Views
             _currentUsername = username;
 
             viewModel.LoadPasswords(username, directory);
-
-            viewModel.AddPasswordPopupView = new AddPasswordPopupView(viewModel);
         }
 
         protected override void OnUnloaded(RoutedEventArgs e)
@@ -39,25 +37,6 @@ namespace EzPasswordManager.Views
             base.OnUnloaded(e);
 
             viewModel.SavePasswords(_currentUsername, null);
-        }
-
-        private void AddPasswordClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-        {
-            viewModel.AddPasswordInfo = new DataTypes.PasswordInfoStructure();
-            viewModel.AddPasswordsVisible = true;
-        }
-
-        private void CancelAddPasswordClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-        {
-            viewModel.AddPasswordsVisible = false;
-            viewModel.AddPasswordInfo = new DataTypes.PasswordInfoStructure();
-        }
-
-        private void CreateAddPasswordClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
-        {
-            viewModel.AddPasswordsVisible = false;
-            viewModel.AddPassword(viewModel.AddPasswordInfo);
-            viewModel.AddPasswordInfo = new DataTypes.PasswordInfoStructure();
         }
     }
 }

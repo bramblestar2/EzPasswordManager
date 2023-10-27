@@ -7,17 +7,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reactive;
 
 namespace EzPasswordManager.ViewModels
 {
     public class PasswordsViewModel : ViewModelBase
     {
-        private AddPasswordPopupView _addPasswordPopupView;
-        public AddPasswordPopupView AddPasswordPopupView
+        private object? _passwordPopupView;
+        public object? PasswordPopupView
         {
-            get => _addPasswordPopupView;
-            set => this.RaiseAndSetIfChanged(ref _addPasswordPopupView, value);
+            get => _passwordPopupView;
+            set => this.RaiseAndSetIfChanged(ref _passwordPopupView, value);
         }
 
         private ObservableCollection<PasswordInfoStructure> _passwords;
@@ -27,11 +28,19 @@ namespace EzPasswordManager.ViewModels
             set { this.RaiseAndSetIfChanged(ref _passwords, value); }
         }
 
-        private bool _addPasswordsVisible = false;
-        public bool AddPasswordsVisible
+
+        private int? _passwordsListSelectedIndex;
+        public int? PasswordsListSelectedIndex
         {
-            get { return _addPasswordsVisible; }
-            set { this.RaiseAndSetIfChanged(ref _addPasswordsVisible, value); }
+            get => _passwordsListSelectedIndex;
+            set => this.RaiseAndSetIfChanged(ref _passwordsListSelectedIndex, value);
+        }
+
+        private bool _passwordsPopupVisible = false;
+        public bool PasswordsPopupVisible
+        {
+            get { return _passwordsPopupVisible; }
+            set { this.RaiseAndSetIfChanged(ref _passwordsPopupVisible, value); }
         }
 
         private PasswordInfoStructure _addPasswordInfo = new PasswordInfoStructure();
@@ -41,13 +50,21 @@ namespace EzPasswordManager.ViewModels
             set => this.RaiseAndSetIfChanged(ref _addPasswordInfo, value);
         }
 
+        
 
         public readonly string DefaultPasswordDirectory;
 
 
         #region Commands
 
+        //POPUP VIEW COMMANDS
         public ReactiveCommand<Unit, Unit> CreatePasswordCommand { get; }
+        public ReactiveCommand<Unit, Unit> SetPasswordCommand { get; }
+
+        //MAIN VIEW COMMANDS
+        public ReactiveCommand<Unit, Unit> ShowPasswordPopupCommand { get; }
+        public ReactiveCommand<Unit, Unit> RemovePasswordCommand { get; }
+        public ReactiveCommand<Unit, Unit> EditPasswordCommand { get; }
 
         #endregion
 
@@ -58,6 +75,10 @@ namespace EzPasswordManager.ViewModels
 
             DefaultPasswordDirectory = Path.Combine(Directory.GetCurrentDirectory(), "EZPassMangr\\");
 
+
+            #region Setup Popup Commands
+
+            //Add Password Button (POPUP)
             IObservable<bool> canCreatePassword = this.WhenAnyValue(
                 x => x.AddPasswordInfo.DisplayName,
                 x => x.AddPasswordInfo.Username,
@@ -70,10 +91,76 @@ namespace EzPasswordManager.ViewModels
 
             CreatePasswordCommand = ReactiveCommand.Create(() =>
             {
-                this.AddPasswordsVisible = false;
+                this.PasswordsPopupVisible = false;
                 this.AddPassword(AddPasswordInfo);
                 this.AddPasswordInfo = new DataTypes.PasswordInfoStructure();
             }, canCreatePassword);
+
+
+            //Set Password Button (POPUP)
+            IObservable<bool> canSetPassword = this.WhenAnyValue(
+                x => x.AddPasswordInfo.DisplayName,
+                x => x.AddPasswordInfo.Username,
+                x => x.AddPasswordInfo.Password,
+                (Displayname, Username, Password) =>
+                     !string.IsNullOrWhiteSpace(Displayname) ||
+                     !string.IsNullOrWhiteSpace(Username) ||
+                     !string.IsNullOrWhiteSpace(Password)
+                );
+
+            SetPasswordCommand = ReactiveCommand.Create(() =>
+            {
+                if (PasswordsListSelectedIndex is not null)
+                    this.Passwords[PasswordsListSelectedIndex.Value] = this.AddPasswordInfo;
+                this.PasswordsPopupVisible = false;
+                this.PasswordsListSelectedIndex = -1;
+                this.AddPasswordInfo = new DataTypes.PasswordInfoStructure();
+            }, canSetPassword);
+
+            #endregion
+
+            #region Setup Main Commands
+
+            //Remove Password Button (MAIN)
+            IObservable<bool> canRemovePassword = this.WhenAnyValue(
+                x => x.PasswordsListSelectedIndex,
+                x => x is not null && x >= 0
+                );
+
+            RemovePasswordCommand = ReactiveCommand.Create(() =>
+            {
+                if (PasswordsListSelectedIndex is not null)
+                    this.RemovePassword(PasswordsListSelectedIndex.Value);
+
+                this.PasswordsListSelectedIndex = -1;
+            }, canRemovePassword);
+
+
+            //Edit Password Button (MAIN)
+            IObservable<bool> canEditPassword = this.WhenAnyValue(
+                x => x.PasswordsListSelectedIndex,
+                x => x is not null && x >= 0
+                );
+
+            EditPasswordCommand = ReactiveCommand.Create(() =>
+            {
+                if (PasswordsListSelectedIndex is not null)
+                {
+                    AddPasswordInfo = new PasswordInfoStructure(Passwords[PasswordsListSelectedIndex.Value]);
+                    PasswordPopupView = new SetPasswordPopupView(this);
+                    PasswordsPopupVisible = true;
+                }
+            }, canRemovePassword);
+
+            //Show Password Popup Button
+            ShowPasswordPopupCommand = ReactiveCommand.Create(() =>
+            {
+                AddPasswordInfo = new DataTypes.PasswordInfoStructure();
+                PasswordPopupView = new AddPasswordPopupView(this);
+                PasswordsPopupVisible = true;
+            });
+
+            #endregion
         }
 
         public void CreateAccount(string username, string directory)
@@ -137,6 +224,16 @@ namespace EzPasswordManager.ViewModels
             File.WriteAllText(Path.Combine(directory, username), json);
         }
 
+        public void SetPassword(PasswordInfoStructure passwordInfo, int index)
+        {
+            try
+            {
+                Passwords[index] = passwordInfo;
+            } catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
 
         public void AddPassword(PasswordInfoStructure passwordInfo)
         {

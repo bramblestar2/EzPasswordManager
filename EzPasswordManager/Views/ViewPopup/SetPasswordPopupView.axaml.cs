@@ -3,18 +3,18 @@ using EzPasswordManager.ViewModels;
 
 namespace EzPasswordManager.Views.ViewPopup
 {
-    public partial class AddPasswordPopupView : UserControl
+    public partial class SetPasswordPopupView : UserControl
     {
         private PasswordsViewModel viewModel;
 
-        public AddPasswordPopupView(PasswordsViewModel passwordsViewModel)
+        public SetPasswordPopupView(PasswordsViewModel passwordsViewModel)
         {
             InitializeComponent();
 
             viewModel = passwordsViewModel;
         }
 
-        public AddPasswordPopupView()
+        public SetPasswordPopupView()
         {
             InitializeComponent();
 

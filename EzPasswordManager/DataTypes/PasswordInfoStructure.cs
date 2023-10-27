@@ -10,6 +10,24 @@ namespace EzPasswordManager.DataTypes
 {
     public class PasswordInfoStructure : ReactiveObject
     {
+        public PasswordInfoStructure(PasswordInfoStructure other)
+        {
+            this.DisplayName =  other.DisplayName;
+            this.Email       =  other.Email      ;
+            this.Username    =  other.Username   ;
+            this.Password    =  other.Password   ;
+            this.Website     =  other.Website    ;
+        }
+
+        public PasswordInfoStructure()
+        {
+            this.DisplayName =  null;
+            this.Email       =  null;
+            this.Username    =  null;
+            this.Password    =  null;
+            this.Website     =  null;
+        }
+
         [JsonIgnore]
         private string? displayName;
         [JsonIgnore]
