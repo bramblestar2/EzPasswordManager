@@ -6,6 +6,7 @@ namespace EzPasswordManager.ViewModels;
 public class MainViewModel : ViewModelBase
 {
     public PasswordView PasswordView { get; set; }
+    public LoginView LoginView { get; set; }
 
     private object? _currentView;
 
@@ -18,7 +19,8 @@ public class MainViewModel : ViewModelBase
     public MainViewModel() 
     {
         PasswordView = new PasswordView();
+        LoginView = new LoginView();
 
-        CurrentView = PasswordView;
+        CurrentView = LoginView;
     }
 }

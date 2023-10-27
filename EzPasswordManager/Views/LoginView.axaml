@@ -6,13 +6,19 @@
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
              x:Class="EzPasswordManager.Views.LoginView"
              x:DataType="vm:LoginViewModel">
+  <Design.DataContext>
+    <vm:LoginViewModel/>
+  </Design.DataContext>
+  
   <Border>
     <Grid VerticalAlignment="Center"
           Margin="50"
-          RowDefinitions="Auto,Auto,Auto">
-      <TextBox Grid.Row="0" Margin="10" Watermark="Username"/>
-      <TextBox Grid.Row="1" Margin="10" Watermark="Password"/>
-      <Button Grid.Row="2" Content="Login" Padding="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+          RowDefinitions="Auto,Auto,Auto"
+          ColumnDefinitions="*,*">
+      <TextBox Text="{Binding Username}" TextChanged="UsernameTextRestriction" Grid.ColumnSpan="2" Grid.Row="0" Margin="10" Watermark="Username"/>
+      <TextBox Text="{Binding Password}" RevealPassword="False" PasswordChar="*" TextChanged="PasswordTextRestriction" Grid.ColumnSpan="2" Grid.Row="1" Margin="10" Watermark="Password"/>
+      <Button Command="{Binding LoginCommand}" Grid.Row="2" Grid.Column="0" Content="Login" Padding="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+      <Button Grid.Row="2" Grid.Column="1" Content="Register" Padding="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
     </Grid>
   </Border>
 </UserControl>
