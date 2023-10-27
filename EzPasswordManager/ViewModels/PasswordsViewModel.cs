@@ -155,6 +155,7 @@ namespace EzPasswordManager.ViewModels
             //Show Password Popup Button
             ShowPasswordPopupCommand = ReactiveCommand.Create(() =>
             {
+                this.PasswordsListSelectedIndex = -1;
                 AddPasswordInfo = new DataTypes.PasswordInfoStructure();
                 PasswordPopupView = new AddPasswordPopupView(this);
                 PasswordsPopupVisible = true;
