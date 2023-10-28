@@ -51,7 +51,7 @@
             <Border Background="{DynamicResource LoginButtonDisableColor}"
                     Name="PART_DisabledBorder"
                     HorizontalAlignment="Left"
-                    CornerRadius="{TemplateBinding CornerRadius}"
+                    CornerRadius="5"
                     Width="0"/>
 
             <Border Background="{DynamicResource LoginButtonHoverColor}"
