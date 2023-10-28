@@ -1,0 +1,111 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+          <Grid Width="200"
+                Height="50">
+            <TextBox Classes="Custom" Watermark="Something" Text="Idk"/>
+          </Grid>
+        </Border>
+    </Design.PreviewWith>
+
+  <Style Selector="TextBox.Custom">
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background"
+                         Duration="0:0:0.2"
+                         Easing="CubicEaseOut"/>
+      </Transitions>
+    </Setter>
+    
+    <Setter Property="Background" Value="#353535"/>
+    <Setter Property="CornerRadius" Value="10"/>
+
+
+    <Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
+    <Setter Property="CaretBrush" Value="{DynamicResource TextControlForeground}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
+    <Setter Property="SelectionBrush" Value="{DynamicResource TextControlSelectionHighlightColor}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
+    <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+    <Setter Property="MinHeight" Value="{DynamicResource TextControlThemeMinHeight}" />
+    <Setter Property="MinWidth" Value="{DynamicResource TextControlThemeMinWidth}" />
+    <Setter Property="Padding" Value="{DynamicResource TextControlThemePadding}" />
+    <Setter Property="FocusAdorner" Value="{x:Null}" />
+    <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+    <Setter Property="ContextFlyout" Value="{StaticResource DefaultTextBoxContextFlyout}" />
+
+    
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                MinWidth="{TemplateBinding MinWidth}"
+                MinHeight="{TemplateBinding MinHeight}"
+                Name="PART_Border">
+          <Grid ColumnDefinitions="Auto,*,Auto" >
+            <ContentPresenter Grid.Column="0"
+                              Grid.ColumnSpan="1"
+                              Content="{TemplateBinding InnerLeftContent}"/>
+            <DockPanel x:Name="PART_InnerDockPanel"
+                       Grid.Column="1"
+                       Grid.ColumnSpan="1"
+                       Cursor="IBeam"
+                       Margin="{TemplateBinding Padding}">
+              <TextBlock Name="PART_FloatingWatermark"
+                         Foreground="{TemplateBinding Foreground}"
+                         Opacity="0.4"
+                         FontSize="{TemplateBinding FontSize}"
+                         IsVisible="False"
+                         Text="{TemplateBinding Watermark}"
+                         DockPanel.Dock="Top" />
+              <ScrollViewer Name="PART_ScrollViewer"
+                            HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                            VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                            IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                            AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+                            BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}">
+                <Panel>
+                  <TextBlock Name="PART_Watermark"
+                          Opacity="0.5"
+                          Text="{TemplateBinding Watermark}"
+                          TextAlignment="{TemplateBinding TextAlignment}"
+                          TextWrapping="{TemplateBinding TextWrapping}"
+                          IsVisible="{TemplateBinding Text, Converter={x:Static StringConverters.IsNullOrEmpty}}"
+                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                  <TextPresenter Name="PART_TextPresenter"
+                                Text="{TemplateBinding Text, Mode=TwoWay}"
+                                CaretIndex="{TemplateBinding CaretIndex}"
+                                SelectionStart="{TemplateBinding SelectionStart}"
+                                SelectionEnd="{TemplateBinding SelectionEnd}"
+                                TextAlignment="{TemplateBinding TextAlignment}"
+                                TextWrapping="{TemplateBinding TextWrapping}"
+                                LineHeight="{TemplateBinding LineHeight}"
+                                LetterSpacing="{TemplateBinding LetterSpacing}"
+                                PasswordChar="{TemplateBinding PasswordChar}"
+                                RevealPassword="{TemplateBinding RevealPassword}"
+                                SelectionBrush="{TemplateBinding SelectionBrush}"
+                                SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                </Panel>
+              </ScrollViewer>
+            </DockPanel>
+            <ContentPresenter Grid.Column="2" Grid.ColumnSpan="1" Content="{TemplateBinding InnerRightContent}"/>
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Background" Value="#404040"/>
+    </Style>
+
+    <Style Selector="^:focus">
+      <Setter Property="Background" Value="#505050"/>
+    </Style>
+  </Style>
+  
+</Styles>

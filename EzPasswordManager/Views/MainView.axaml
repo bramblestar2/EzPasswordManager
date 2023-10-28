@@ -13,7 +13,14 @@
   </Design.DataContext>
 
   <Border>
-    <ContentPresenter Content="{Binding CurrentView}"/>
+    <TransitioningContentControl Content="{Binding CurrentView}">
+      <TransitioningContentControl.PageTransition>
+        <PageSlide Orientation="Vertical" 
+                   Duration="0:0:0.5"
+                   SlideInEasing="CubicEaseIn"
+                   SlideOutEasing="CubicEaseIn"/>
+      </TransitioningContentControl.PageTransition>
+    </TransitioningContentControl>
   </Border>
   
 </UserControl>

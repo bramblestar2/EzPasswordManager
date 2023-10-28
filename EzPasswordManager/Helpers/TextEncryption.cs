@@ -10,17 +10,13 @@ namespace EzPasswordManager.Helpers
 {
     static class TextEncryption
     {
-
-
         static public string EncryptSHA(string plainText)
         {
             SHA256 sha = SHA256.Create();
             byte[] bytes = Encoding.UTF8.GetBytes(plainText);
             string hash = Convert.ToBase64String(sha.ComputeHash(bytes));
-
+            
             return hash;
-
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,12 +1,28 @@
+using Avalonia;
+using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using EzPasswordManager.ViewModels;
-using EzPasswordManager.Views.ViewPopup;
+using System;
 
 namespace EzPasswordManager.Views
 {
     public partial class PasswordView : UserControl
     {
+        #region Events
+
+        public static readonly RoutedEvent<RoutedEventArgs> LogoutEvent =
+            RoutedEvent.Register<LoginView, RoutedEventArgs>(nameof(Logout), RoutingStrategies.Bubble);
+
+        public event EventHandler<RoutedEventArgs> Logout
+        {
+            add => AddHandler(LogoutEvent, value);
+            remove => RemoveHandler(LogoutEvent, value);
+        }
+
+        #endregion
+
         private PasswordsViewModel viewModel;
         private string _currentUsername;
 
@@ -37,6 +53,11 @@ namespace EzPasswordManager.Views
             base.OnUnloaded(e);
 
             viewModel.SavePasswords(_currentUsername, null);
+        }
+
+        private void LogoutClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            this.RaiseEvent(new RoutedEventArgs(LogoutEvent, this));
         }
     }
 }

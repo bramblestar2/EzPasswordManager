@@ -9,16 +9,21 @@
   <Design.DataContext>
     <vm:LoginViewModel/>
   </Design.DataContext>
-  
-  <Border>
+
+  <UserControl.Styles>
+    <StyleInclude Source="/Styles/TextboxStyles.axaml"/>
+    <StyleInclude Source="/Styles/LoginViewStyles.axaml"/>
+  </UserControl.Styles>
+
+  <Border Background="#252525">
     <Grid VerticalAlignment="Center"
           Margin="50"
           RowDefinitions="Auto,Auto,Auto"
           ColumnDefinitions="*,*">
-      <TextBox Text="{Binding Username}" TextChanged="UsernameTextRestriction" Grid.ColumnSpan="2" Grid.Row="0" Margin="10" Watermark="Username"/>
-      <TextBox Text="{Binding Password}" RevealPassword="False" PasswordChar="*" TextChanged="PasswordTextRestriction" Grid.ColumnSpan="2" Grid.Row="1" Margin="10" Watermark="Password"/>
-      <Button Command="{Binding LoginCommand}" Grid.Row="2" Grid.Column="0" Content="Login" Padding="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
-      <Button Grid.Row="2" Grid.Column="1" Content="Register" Padding="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+      <TextBox Text="{Binding Username}" Classes="Custom" TextChanged="UsernameTextRestriction" Grid.ColumnSpan="2" Grid.Row="0" Margin="10" UseFloatingWatermark="True" Watermark="Username"/>
+      <TextBox Text="{Binding Password}" Classes="Custom" RevealPassword="False" PasswordChar="*" TextChanged="PasswordTextRestriction" Grid.ColumnSpan="2" Grid.Row="1" Margin="10" UseFloatingWatermark="True" Watermark="Password"/>
+      <Button Classes="Base Login" Command="{Binding LoginCommand}" Grid.Row="2" Grid.Column="0" Content="Login" Margin="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+      <Button Classes="Base Register" Command="{Binding RegisterCommand}" Grid.Row="2" Grid.Column="1" Content="Register" Margin="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
     </Grid>
   </Border>
 </UserControl>

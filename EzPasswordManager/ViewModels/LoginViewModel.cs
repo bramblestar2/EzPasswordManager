@@ -1,4 +1,7 @@
-﻿using EzPasswordManager.Helpers;
+﻿using Avalonia.Interactivity;
+using EzPasswordManager.CustomArgs;
+using EzPasswordManager.Helpers;
+using EzPasswordManager.Views;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -38,6 +41,9 @@ namespace EzPasswordManager.ViewModels
 
         #endregion
 
+        
+        public LoginView loginView { get; set; }
+
         public LoginViewModel()
         {
             DefaultPasswordDirectory = Path.Combine(Directory.GetCurrentDirectory(), "EZPassMangr\\");
@@ -48,11 +54,14 @@ namespace EzPasswordManager.ViewModels
                 x => x.Password,
                 (username, password) => !string.IsNullOrWhiteSpace(username) &&
                                         !string.IsNullOrWhiteSpace(password) &&
+                                        UserLoginExist(username, password) &&
                                         DoesUserFileExist(username, password)
                 );
 
             LoginCommand = ReactiveCommand.Create(() =>
             {
+                if (loginView is not null)
+                    loginView.RaiseEvent(new UserLoginArgs(Username, Password, DefaultPasswordDirectory, LoginView.LoginEvent, loginView));
             }, canLogin);
 
             //Login Button Command
@@ -60,35 +69,90 @@ namespace EzPasswordManager.ViewModels
                 x => x.Username,
                 x => x.Password,
                 (username, password) => !string.IsNullOrWhiteSpace(username) &&
-                                        !string.IsNullOrWhiteSpace(password)
+                                        !string.IsNullOrWhiteSpace(password) &&
+                                        !UserLoginExist(username, password) &&
+                                        !DoesUserFileExist(username, password)
                 );
 
             RegisterCommand = ReactiveCommand.Create(() =>
             {
+                CreateLogin(Username, Password);
+                if (loginView is not null)
+                    loginView.RaiseEvent(new UserLoginArgs(Username, Password, DefaultPasswordDirectory, LoginView.LoginEvent, loginView));
             }, canRegister);
+        }
+
+
+        public void CreateLogin(string username, string password, string? directory = null)
+        {
+            CheckDirectory(ref directory);
+
+            if (!Path.Exists(Path.Combine(directory, ".logins")))
+                File.Create(Path.Combine(directory, ".logins")).Close();
+
+            if (Path.Exists(Path.Combine(directory, ".logins")))
+            {
+                string hashedPassword = TextEncryption.EncryptSHA(password);
+                bool existingLogin = UserLoginExist(username, hashedPassword);
+
+
+                if (!existingLogin)
+                {
+                    File.AppendAllText(Path.Combine(directory, ".logins"), username + " " + hashedPassword + "\n");
+                    File.Create(Path.Combine(directory, username)).Close();
+                }
+            }
+        }
+
+
+        public bool UserLoginExist(string username, string password, string? directory = null)
+        {
+            CheckDirectory(ref directory);
+
+            if (!Path.Exists(Path.Combine(directory, ".logins")))
+                File.Create(Path.Combine(directory, ".logins")).Close();
+
+            using (var fs = File.OpenRead(Path.Combine(directory, ".logins")))
+            {
+                using (var sr = new StreamReader(fs, Encoding.UTF8, true))
+                {
+                    string hashedPassword = TextEncryption.EncryptSHA(password);
+                    string? line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        if (line is not null)
+                        {
+                            string[] strings = line.Split(" ");
+                            if (strings.Length > 1)
+                            {
+                                string user = strings[0],
+                                       pass = strings[1];
+
+                                if (username.Equals(user) && hashedPassword.Equals(pass))
+                                    return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
 
         public bool DoesUserFileExist(string username, string password, string? directory = null)
         {
             CheckDirectory(ref directory);
-            
+
             foreach (var file in Directory.GetFiles(directory))
             {
                 try
                 {
-                    
-                    string[] fileName = Path.GetFileNameWithoutExtension(file).Split(' ');
-                    if (fileName.Length == 2)
-                    {
-                        string fileUsername, filePassword;
-                        fileUsername = fileName[0];
-                        filePassword = fileName[1];
-
-                        if (username.Equals(fileUsername) && password.Equals(filePassword))
-                            return true;
-                    }
-                } catch (Exception ex)
+                    string fileName = Path.GetFileNameWithoutExtension(file);
+                    if (username.Equals(fileName))
+                        return true;
+                }
+                catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }

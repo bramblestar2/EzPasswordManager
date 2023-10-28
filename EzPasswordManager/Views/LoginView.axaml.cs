@@ -1,5 +1,8 @@
 using Avalonia.Controls;
+using Avalonia.Interactivity;
+using EzPasswordManager.CustomArgs;
 using EzPasswordManager.ViewModels;
+using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
@@ -9,11 +12,25 @@ namespace EzPasswordManager.Views
     {
         private LoginViewModel viewModel;
 
+        #region Events
+
+        public static readonly RoutedEvent<UserLoginArgs> LoginEvent =
+            RoutedEvent.Register<LoginView, UserLoginArgs>(nameof(Login), RoutingStrategies.Bubble);
+
+        public event EventHandler<UserLoginArgs> Login
+        {
+            add => AddHandler(LoginEvent, value);
+            remove => RemoveHandler(LoginEvent, value);
+        }
+
+        #endregion
+
         public LoginView()
         {
             InitializeComponent();
 
             viewModel = new LoginViewModel();
+            viewModel.loginView = this;
             this.DataContext = viewModel;
         }
 
