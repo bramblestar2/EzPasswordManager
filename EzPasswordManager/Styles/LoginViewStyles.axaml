@@ -5,7 +5,6 @@
           <Border Width="300"
                   Height="200">
             <Grid ColumnDefinitions="*,*">
-              
               <Button Classes="Base Login"/>
               <Button Classes="Base Register" Grid.Column="1"/>
             </Grid>
@@ -23,7 +22,8 @@
     <Setter Property="Background" Value="#505050"/>
     <Setter Property="Height" Value="50"/>
     <Setter Property="HorizontalAlignment" Value="Stretch"/>
-
+    <Setter Property="CornerRadius" Value="5"/>
+    
     <Setter Property="Transitions">
       <Transitions>
         <BrushTransition Property="Background"
@@ -45,21 +45,25 @@
                 Height="{TemplateBinding Height}"
                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
                 x:Name="PART_Border">
           <Grid>
             <Border Background="{DynamicResource LoginButtonDisableColor}"
                     Name="PART_DisabledBorder"
                     HorizontalAlignment="Left"
+                    CornerRadius="{TemplateBinding CornerRadius}"
                     Width="0"/>
 
             <Border Background="{DynamicResource LoginButtonHoverColor}"
                     Name="PART_HoverBorder"
                     HorizontalAlignment="Left"
+                    CornerRadius="{TemplateBinding CornerRadius}"
                     Width="0"/>
 
             <Border Background="{DynamicResource LoginButtonPressColor}"
                     Name="PART_PressBorder"
                     HorizontalAlignment="Left"
+                    CornerRadius="{TemplateBinding CornerRadius}"
                     Width="0"/>
             
             <ContentPresenter Content="{TemplateBinding Content}"
