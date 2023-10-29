@@ -16,7 +16,7 @@
         TransparencyLevelHint="None"
         
         MinWidth="300" MaxWidth="700"
-        MinHeight="350" MaxHeight="750"
+        MinHeight="350" MaxHeight="600"
         
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
