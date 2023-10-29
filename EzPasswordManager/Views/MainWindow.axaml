@@ -4,11 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:EzPasswordManager.Views"
+        xmlns:cc="clr-namespace:EzPasswordManager.Views.MainWindowViews"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
-        Width="400" Height="450"
+        Width="400" Height="480"
         WindowStartupLocation="CenterScreen"
         x:Class="EzPasswordManager.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="EZ Password Manager">
-        <views:MainView />
+        Title="EZ Password Manager"
+
+        Background="Transparent"
+        TransparencyLevelHint="None"
+        
+        MinWidth="300" MaxWidth="700"
+        MinHeight="350" MaxHeight="750"
+        
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
+        >
+
+  <Window.Styles>
+    <StyleInclude Source="/Views/MainWindowViews/MenuBar.axaml"/>
+  </Window.Styles>
+  
+  <Border Background="#252525">
+    <Grid RowDefinitions="30,*">
+
+      <cc:MenuBar Grid.Row="0"
+                  Title="Something"
+                  PointerPressed="Border_PointerPressed"
+                  ShowMaximize="False">
+        
+      </cc:MenuBar>
+      
+      <views:MainView Grid.Row="1"/>
+    </Grid>
+  </Border>
 </Window>

@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:EzPasswordManager.ViewModels"
+             xmlns:helpers="clr-namespace:EzPasswordManager.Helpers"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
              x:Class="EzPasswordManager.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -15,10 +16,7 @@
   <Border>
     <TransitioningContentControl Content="{Binding CurrentView}">
       <TransitioningContentControl.PageTransition>
-        <PageSlide Orientation="Vertical" 
-                   Duration="0:0:0.5"
-                   SlideInEasing="CubicEaseIn"
-                   SlideOutEasing="CubicEaseIn"/>
+        <helpers:PageSlideVerticalTransition Duration="0:0:0.5"/>
       </TransitioningContentControl.PageTransition>
     </TransitioningContentControl>
   </Border>

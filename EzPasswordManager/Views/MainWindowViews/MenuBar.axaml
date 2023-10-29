@@ -1,0 +1,53 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:EzPasswordManager.Views.MainWindowViews">
+  <Design.PreviewWith>
+    <Border Width="300"
+            Height="30">
+      <controls:MenuBar ShowClose="False"/>
+    </Border>
+  </Design.PreviewWith>
+
+  <Style Selector="controls|MenuBar">
+    <Setter Property="Title" Value="MenuBar Title"/>
+    <Setter Property="Background" Value="#191919"/>
+    <Setter Property="ShowMinimize" Value="True"/>
+    <Setter Property="ShowMaximize" Value="True"/>
+    <Setter Property="ShowClose" Value="True"/>
+    
+    <!-- Set Defaults -->
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}">
+          <Grid ColumnDefinitions="*,*">
+            
+            <TextBlock Name="PART_TitleText"
+                       VerticalAlignment="Center"
+                       Margin="5"
+                       Text="{TemplateBinding Title}"/>
+
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+              <Button VerticalAlignment="Stretch"
+                      Width="30"
+                      IsVisible="{TemplateBinding ShowMinimize}"
+                      Content="_"/>
+
+              <Button VerticalAlignment="Stretch"
+                      Width="30"
+                      IsVisible="{TemplateBinding ShowMaximize}"
+                      Content="O"/>
+
+              <Button VerticalAlignment="Stretch"
+                      Width="30"
+                      IsVisible="{TemplateBinding ShowClose}"
+                      Content="X"/>
+            </StackPanel>
+            
+          </Grid>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>
