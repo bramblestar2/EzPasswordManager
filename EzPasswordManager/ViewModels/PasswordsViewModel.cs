@@ -65,6 +65,7 @@ namespace EzPasswordManager.ViewModels
         public ReactiveCommand<Unit, Unit> ShowPasswordPopupCommand { get; }
         public ReactiveCommand<Unit, Unit> RemovePasswordCommand { get; }
         public ReactiveCommand<Unit, Unit> EditPasswordCommand { get; }
+        public ReactiveCommand<Unit, Unit> DeselectPasswordCommand { get; }
 
         #endregion
 
@@ -160,6 +161,18 @@ namespace EzPasswordManager.ViewModels
                 PasswordPopupView = new AddPasswordPopupView(this);
                 PasswordsPopupVisible = true;
             });
+
+
+            //Deselect Password Button (MAIN)
+            IObservable<bool> canDeselectPassword = this.WhenAnyValue(
+                x => x.PasswordsListSelectedIndex,
+                x => x is not null && x >= 0
+                );
+
+            DeselectPasswordCommand = ReactiveCommand.Create(() =>
+            {
+                this.PasswordsListSelectedIndex = -1;
+            }, canDeselectPassword);
 
             #endregion
         }
