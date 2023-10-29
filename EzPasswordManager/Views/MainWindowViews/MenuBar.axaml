@@ -4,20 +4,19 @@
   <Design.PreviewWith>
     <Border Width="300"
             Height="30">
-      <controls:MenuBar ShowClose="False"/>
+      <controls:MenuBar/>
     </Border>
   </Design.PreviewWith>
 
   <Style Selector="controls|MenuBar">
     <Setter Property="Title" Value="MenuBar Title"/>
-    <Setter Property="Background" Value="#191919"/>
+    <Setter Property="Background" Value="#151515"/>
     <Setter Property="ShowMinimize" Value="True"/>
     <Setter Property="ShowMaximize" Value="True"/>
     <Setter Property="ShowClose" Value="True"/>
     
-    <!-- Set Defaults -->
     <Setter Property="Template">
-      <ControlTemplate>
+      <ControlTemplate x:DataType="controls:MenuBar">
         <Border Background="{TemplateBinding Background}">
           <Grid ColumnDefinitions="*,*">
             
@@ -31,17 +30,23 @@
                         HorizontalAlignment="Right">
               <Button VerticalAlignment="Stretch"
                       Width="30"
+                      Classes="Base Minimize"
                       IsVisible="{TemplateBinding ShowMinimize}"
+                      Name="PART_MinimizeButton"
                       Content="_"/>
 
               <Button VerticalAlignment="Stretch"
                       Width="30"
+                      Classes="Base Maximize"
                       IsVisible="{TemplateBinding ShowMaximize}"
+                      Name="PART_MaximizeButton"
                       Content="O"/>
 
               <Button VerticalAlignment="Stretch"
                       Width="30"
+                      Classes="Base Close"
                       IsVisible="{TemplateBinding ShowClose}"
+                      Name="PART_CloseButton"
                       Content="X"/>
             </StackPanel>
             
@@ -49,5 +54,62 @@
         </Border>
       </ControlTemplate>
     </Setter>
+  </Style>
+
+  <Style Selector="Button.Base">
+    <Setter Property="Background" Value="#00505050"/>
+    <Setter Property="Transitions">
+      <Transitions>
+        <BrushTransition Property="Background"
+                         Duration="0:0:0.2"
+                         Easing="CubicEaseIn"/>
+      </Transitions>
+    </Setter>
+    
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Background="{TemplateBinding Background}"
+                Padding="{TemplateBinding Padding}"
+                Margin="{TemplateBinding Margin}"
+                Width="{TemplateBinding Width}"
+                Height="{TemplateBinding Height}"
+                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                Name="PART_Border">
+          <Viewbox Margin="-2">
+            <Path Name="PART_Glyph"
+                  Stroke="White"
+                  Margin="0.5"
+                  StrokeLineCap="Round"
+                  StrokeThickness="1"/>
+          </Viewbox>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Background" Value="#404040"/>
+    </Style>
+    
+    <Style Selector="^:pressed">
+      <Setter Property="RenderTransform"/>
+      <Setter Property="Background" Value="#373737"/>
+    </Style>
+  </Style>
+
+  <Style Selector="Button.Close /template/ Path#PART_Glyph">
+    <Setter Property="Data" Value="M 0 0 l 4 4 m 0 -4 l -4 4"/>
+  </Style>
+
+  <Style Selector="Button.Minimize /template/ Path#PART_Glyph">
+    <Setter Property="Data" Value="M 16 0.5 c -0.4 -0.4 -1 -0.4 -1.4 0 l -6.3 6.3 v -2.6 c 0 -0.6 -0.4 -1 -1 -1 s -1 0.4 -1 1 v 5 c 0 0.1 0 0.3 0.1 0.4 c 0.1 0.2 0.3 0.4 0.5 0.5 c 0.1 0.1 0.3 0.1 0.4 0.1 h 4.8 c 0.6 0 1 -0.4 1 -1 s -0.4 -1 -1 -1 h -2.4 l 6.3 -6.3 c 0.4 -0.4 0.4 -1 0 -1.4 z m -7.7 -0.3 h -3.5 c -2.5 0 -4.5 2 -4.5 4.5 v 7 c 0 2.5 2 4.5 4.5 4.5 h 7 c 2.5 0 4.5 -2 4.5 -4.5 v -3.5 c 0 -0.6 -0.4 -1 -1 -1 s -1 0.4 -1 1 v 3.5 c 0 1.4 -1.1 2.5 -2.5 2.5 h -7 c -1.4 0 -2.5 -1.1 -2.5 -2.5 v -7 c 0 -1.4 1.1 -2.5 2.5 -2.5 h 3.5 c 0.6 0 1 -0.4 1 -1 s -0.4 -1 -1 -1 z"/>
+    <Setter Property="Fill" Value="White"/>
+    <Setter Property="StrokeThickness" Value="0"/>
+  </Style>
+  
+  <Style Selector="Button.Maximize /template/ Path#PART_Glyph">
+    <Setter Property="Data" Value="M 18 1 a 1 1 0 0 0 -1 -1 h -6 a 1 1 0 1 0 0 2 h 3.586 l -3.793 3.793 a 1 1 0 0 0 1.414 1.414 l 3.793 -3.793 v 3.586 a 1 1 0 1 0 2 0 v -6 z m -18 16 a 1 1 0 0 0 1 1 h 6 a 1 1 0 1 0 0 -2 h -3.586 l 3.793 -3.793 a 1 1 0 1 0 -1.414 -1.414 l -3.793 3.793 v -3.586 a 1 1 0 1 0 -2 0 v 6 z"/>
+    <Setter Property="Fill" Value="White"/>
+    <Setter Property="StrokeThickness" Value="0"/>
   </Style>
 </Styles>

@@ -21,6 +21,8 @@
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
         ExtendClientAreaTitleBarHeightHint="-1"
+        
+        Name="window"
         >
 
   <Window.Styles>
@@ -31,13 +33,16 @@
     <Grid RowDefinitions="30,*">
 
       <cc:MenuBar Grid.Row="0"
-                  Title="Something"
+                  Close="CloseClicked"
+                  Minimize="MinimizeClicked"
+                  Title="{Binding #window.Title}"
                   PointerPressed="Border_PointerPressed"
                   ShowMaximize="False">
         
       </cc:MenuBar>
       
-      <views:MainView Grid.Row="1"/>
+      <views:MainView Grid.Row="1"
+                      Name="View"/>
     </Grid>
   </Border>
 </Window>

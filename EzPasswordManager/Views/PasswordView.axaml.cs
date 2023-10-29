@@ -52,7 +52,12 @@ namespace EzPasswordManager.Views
         {
             base.OnUnloaded(e);
 
-            viewModel.SavePasswords(_currentUsername, null);
+            viewModel.SavePasswords(_currentUsername);
+        }
+
+        public void SaveInfo()
+        {
+            viewModel.SavePasswords(_currentUsername);
         }
 
         private void LogoutClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
