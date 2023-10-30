@@ -24,9 +24,7 @@ public class MainViewModel : ViewModelBase
     {
         PasswordView = null;
         LoginView = new LoginView();
-
         LoginView.Login += LoginView_Login;
-
         CurrentView = LoginView;
     }
 
@@ -40,6 +38,9 @@ public class MainViewModel : ViewModelBase
 
     private void PasswordView_DeleteAccount(object? sender, UserLoginArgs e)
     {
+        if (PasswordView != null)
+            PasswordView.SavePasswords = false;
+
         LoginView = new LoginView();
         LoginView.Login += LoginView_Login;
         CurrentView = LoginView;
@@ -51,9 +52,6 @@ public class MainViewModel : ViewModelBase
 
     private void PasswordView_Logout(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
-        if (PasswordView is not null)
-            PasswordView.SaveInfo();
-
         LoginView = new LoginView();
         LoginView.Login += LoginView_Login;
         CurrentView = LoginView;

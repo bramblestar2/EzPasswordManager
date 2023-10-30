@@ -28,7 +28,6 @@ namespace EzPasswordManager.ViewModels
             set { this.RaiseAndSetIfChanged(ref _passwords, value); }
         }
 
-
         private int? _passwordsListSelectedIndex;
         public int? PasswordsListSelectedIndex
         {
@@ -50,10 +49,7 @@ namespace EzPasswordManager.ViewModels
             set => this.RaiseAndSetIfChanged(ref _addPasswordInfo, value);
         }
 
-        
-
         public readonly string DefaultPasswordDirectory;
-
 
         #region Commands
 
@@ -68,7 +64,6 @@ namespace EzPasswordManager.ViewModels
         public ReactiveCommand<Unit, Unit> DeselectPasswordCommand { get; }
 
         #endregion
-
 
         public PasswordsViewModel()
         {

@@ -1,11 +1,19 @@
 using Avalonia;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
+using Avalonia.Dialogs;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Platform.Storage;
 using EzPasswordManager.CustomArgs;
+using EzPasswordManager.DataTypes;
 using EzPasswordManager.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EzPasswordManager.Views
 {
@@ -36,6 +44,7 @@ namespace EzPasswordManager.Views
 
         private PasswordsViewModel viewModel;
         private string _currentUsername;
+        public bool SavePasswords = true;
 
         public PasswordView(string username)
         {
@@ -62,6 +71,9 @@ namespace EzPasswordManager.Views
         protected override void OnUnloaded(RoutedEventArgs e)
         {
             base.OnUnloaded(e);
+
+            if (SavePasswords)
+                this.SaveInfo();
         }
 
         public void SaveInfo()
@@ -77,6 +89,70 @@ namespace EzPasswordManager.Views
         private void DeleteAccountClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             this.RaiseEvent(new UserLoginArgs(_currentUsername, "", null, DeleteAccountEvent, this));
+        }
+
+        private async void ExportPasswordsClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            TopLevel? topLevel = TopLevel.GetTopLevel(this);
+
+            if (topLevel is not null)
+            {
+                var file = await topLevel.StorageProvider.SaveFilePickerAsync(new Avalonia.Platform.Storage.FilePickerSaveOptions
+                {
+                    Title = "Save CSV File",
+                    ShowOverwritePrompt = true,
+                    DefaultExtension = "csv",
+                    SuggestedFileName = _currentUsername + "_passwords",
+                    FileTypeChoices = new[]
+                    {
+                        new FilePickerFileType("csv")
+                        {
+                            Patterns = new[] { "*.csv" },
+                            MimeTypes = new[] { "csv/*" }
+                        }
+                    }
+                });
+
+                if (file is not null)
+                {
+                    this.SaveInfo();
+
+                    string absolutePath = Uri.UnescapeDataString(file.Path.AbsolutePath);
+                    DirectoryInfo? directory = Directory.GetParent(absolutePath);
+
+                    File.Create(absolutePath).Close();
+                    PasswordInfoStructure[] passwords = viewModel.Passwords.ToArray();
+
+                    List<Task> tasks = new List<Task>();
+
+                    using (FileStream fs = File.Create(absolutePath))
+                    using (StreamWriter sw = new StreamWriter(fs))
+                    {
+                        for (int i = 0; i < passwords.Length; i++)
+                        {
+                            string output = "";
+
+                            if (!string.IsNullOrWhiteSpace(passwords[i].DisplayName))
+                                output += "\"" + passwords[i].DisplayName + "\",";
+                            if (!string.IsNullOrWhiteSpace(passwords[i].Username))
+                                output += "\"" + passwords[i].Username + "\",";
+                            if (!string.IsNullOrWhiteSpace(passwords[i].Password))
+                                output += "\"" + passwords[i].Password + "\",";
+                            if (!string.IsNullOrWhiteSpace(passwords[i].Email))
+                                output += "\"" + passwords[i].Email + "\",";
+                            if (!string.IsNullOrWhiteSpace(passwords[i].Website))
+                                output += "\"" + passwords[i].Website + "\",";
+
+                            if (output.ElementAt(output.Length-1) == ',')
+                                output = output.Remove(output.Length-1);
+
+                            tasks.Add(sw.WriteLineAsync(output));
+                        }
+                    }
+
+                    await Task.WhenAll(tasks);
+                }
+            }
         }
     }
 }

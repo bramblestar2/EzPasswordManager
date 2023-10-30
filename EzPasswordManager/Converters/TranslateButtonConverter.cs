@@ -4,6 +4,7 @@ using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
+using Avalonia.Media.Transformation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,13 +19,6 @@ namespace EzPasswordManager.Converters
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            
-            TranslateTransform transform = new TranslateTransform()
-            {
-                X = 0,
-                Y = 0
-            };
-
             if (value is Button button)
             {
                 double multiplier = 1;
@@ -34,10 +28,28 @@ namespace EzPasswordManager.Converters
 
                 double translateX = -button.Bounds.Width * multiplier;
 
-                transform.X = translateX;
+                var transform = TransformOperations.CreateBuilder(1);
+                transform.AppendTranslate(translateX, 0);
+
+                return transform.Build();
+            } else if (value is double width)
+            {
+
+                double multiplier = 1;
+
+                if (parameter is string x)
+                    double.TryParse(x, out multiplier);
+
+                double translateX = -width * multiplier;
+                Debug.WriteLine(translateX);
+
+                var transform = TransformOperations.CreateBuilder(1);
+                transform.AppendTranslate(translateX, 0);
+
+                return transform.Build();
             }
             
-            return transform;
+            return null;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
