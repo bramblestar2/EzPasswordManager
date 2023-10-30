@@ -8,10 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reactive;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace EzPasswordManager.ViewModels
 {
@@ -247,7 +244,7 @@ namespace EzPasswordManager.ViewModels
             }
         }
 
-        public void SavePasswords(string username, string? directory = null)
+        public async void SavePasswords(string username, string? directory = null)
         {
             CheckDirectory(ref directory);
 
@@ -259,7 +256,7 @@ namespace EzPasswordManager.ViewModels
             {
                 string encryptedText = TextEncryption.EncryptAES(json);
 
-                File.WriteAllText(Path.Combine(directory, username), encryptedText);
+                await File.WriteAllTextAsync(Path.Combine(directory, username), encryptedText);
             } catch (Exception ex)
             {
                 Debug.WriteLine(ex);

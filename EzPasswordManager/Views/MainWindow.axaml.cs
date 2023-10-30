@@ -25,9 +25,6 @@ public partial class MainWindow : Window
     protected override void OnClosing(WindowClosingEventArgs e)
     {
         base.OnClosing(e);
-
-        if (View.Content is PasswordView view)
-            view.SaveInfo();
     }
 
     private void Border_PointerPressed(object? sender, PointerPressedEventArgs e)
@@ -37,6 +34,9 @@ public partial class MainWindow : Window
 
     private void CloseClicked(object? sender, RoutedEventArgs e)
     {
+        if (View.Content is PasswordView view)
+            view.SaveInfo();
+
         this.Close();
     }
 
