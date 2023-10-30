@@ -1,4 +1,5 @@
 ﻿using EzPasswordManager.DataTypes;
+using EzPasswordManager.Helpers;
 using EzPasswordManager.Views.ViewPopup;
 using Newtonsoft.Json;
 using ReactiveUI;
@@ -9,6 +10,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace EzPasswordManager.ViewModels
 {
@@ -195,6 +198,11 @@ namespace EzPasswordManager.ViewModels
             }
         }
 
+
+        private byte[] IV = { 210, 29, 113, 228, 186, 195, 253, 152, 9, 63, 188, 36, 236, 100, 59, 98 };
+        private byte[] Key = { 11, 228, 250, 9, 33, 100, 137, 95, 173, 75, 170, 180, 233, 103, 227, 158,
+                        225, 165, 215, 146, 170, 192, 142, 251, 64, 213, 222, 178, 148, 249, 36, 102 };
+
         /// <summary>
         /// Loads passwords from username file in provided directory
         /// </summary>
@@ -212,7 +220,19 @@ namespace EzPasswordManager.ViewModels
             using (StreamReader r = new StreamReader(Path.Combine(directory, username)))
             {
                 string json = r.ReadToEnd();
-                items = JsonConvert.DeserializeObject<List<PasswordInfoStructure>>(json);
+
+                //Decryption
+                try
+                {
+                    string decryptedText = TextEncryption.DecryptAES(json);
+
+                    items = JsonConvert.DeserializeObject<List<PasswordInfoStructure>>(decryptedText);
+                } catch (Exception ex)
+                {
+                    items = JsonConvert.DeserializeObject<List<PasswordInfoStructure>>(json);
+                }
+                //Decryption
+
             }
 
             if (items is null)
@@ -235,7 +255,15 @@ namespace EzPasswordManager.ViewModels
 
             string json = JsonConvert.SerializeObject(Passwords, Formatting.Indented);
 
-            File.WriteAllText(Path.Combine(directory, username), json);
+            try
+            {
+                string encryptedText = TextEncryption.EncryptAES(json);
+
+                File.WriteAllText(Path.Combine(directory, username), encryptedText);
+            } catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
         public void SetPassword(PasswordInfoStructure passwordInfo, int index)

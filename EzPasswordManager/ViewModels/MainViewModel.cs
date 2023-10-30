@@ -1,4 +1,7 @@
-﻿using EzPasswordManager.Views;
+﻿using EzPasswordManager.CustomArgs;
+using EzPasswordManager.Helpers;
+using EzPasswordManager.Views;
+using Newtonsoft.Json;
 using ReactiveUI;
 using System.Diagnostics;
 
@@ -31,11 +34,26 @@ public class MainViewModel : ViewModelBase
     {
         PasswordView = new PasswordView(e.Username);
         PasswordView.Logout += PasswordView_Logout;
+        PasswordView.DeleteAccount += PasswordView_DeleteAccount;
         CurrentView = PasswordView;
+    }
+
+    private void PasswordView_DeleteAccount(object? sender, UserLoginArgs e)
+    {
+        LoginView = new LoginView();
+        LoginView.Login += LoginView_Login;
+        CurrentView = LoginView;
+        PasswordView = null;
+
+        //Remove password file and login line
+        AccountManager.RemoveUser(e.Username);
     }
 
     private void PasswordView_Logout(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
     {
+        if (PasswordView is not null)
+            PasswordView.SaveInfo();
+
         LoginView = new LoginView();
         LoginView.Login += LoginView_Login;
         CurrentView = LoginView;

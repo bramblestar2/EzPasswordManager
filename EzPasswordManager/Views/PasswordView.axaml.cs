@@ -3,6 +3,7 @@ using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using EzPasswordManager.CustomArgs;
 using EzPasswordManager.ViewModels;
 using System;
 
@@ -19,6 +20,16 @@ namespace EzPasswordManager.Views
         {
             add => AddHandler(LogoutEvent, value);
             remove => RemoveHandler(LogoutEvent, value);
+        }
+
+
+        public static readonly RoutedEvent<UserLoginArgs> DeleteAccountEvent =
+            RoutedEvent.Register<LoginView, UserLoginArgs>(nameof(DeleteAccount), RoutingStrategies.Bubble);
+
+        public event EventHandler<UserLoginArgs> DeleteAccount
+        {
+            add => AddHandler(DeleteAccountEvent, value);
+            remove => RemoveHandler(DeleteAccountEvent, value);
         }
 
         #endregion
@@ -51,8 +62,6 @@ namespace EzPasswordManager.Views
         protected override void OnUnloaded(RoutedEventArgs e)
         {
             base.OnUnloaded(e);
-
-            viewModel.SavePasswords(_currentUsername);
         }
 
         public void SaveInfo()
@@ -63,6 +72,11 @@ namespace EzPasswordManager.Views
         private void LogoutClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             this.RaiseEvent(new RoutedEventArgs(LogoutEvent, this));
+        }
+
+        private void DeleteAccountClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            this.RaiseEvent(new UserLoginArgs(_currentUsername, "", null, DeleteAccountEvent, this));
         }
     }
 }

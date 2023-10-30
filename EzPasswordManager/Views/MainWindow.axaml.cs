@@ -1,8 +1,12 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using EzPasswordManager.Helpers;
 using System;
 using System.Diagnostics;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace EzPasswordManager.Views;
 
