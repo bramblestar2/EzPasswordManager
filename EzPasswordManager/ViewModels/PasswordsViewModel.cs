@@ -283,5 +283,10 @@ namespace EzPasswordManager.ViewModels
         {
             Passwords.RemoveAt(index);
         }
+
+        public void UploadPasswordsToDatabase()
+        {
+
+        }
     }
 }
