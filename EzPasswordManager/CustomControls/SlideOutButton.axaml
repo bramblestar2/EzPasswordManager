@@ -1,0 +1,131 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="using:EzPasswordManager.Converters"
+        xmlns:controls="using:EzPasswordManager.CustomControls">
+  <Design.PreviewWith>
+    <Border Padding="500">
+      <Grid>
+        <controls:SlideOutButton Classes="Deselect" MultiplierWidth="1.35"/>
+        <controls:SlideOutButton Classes="Edit" MultiplierWidth="0.45"/>
+        <controls:SlideOutButton Classes="Remove" MultiplierWidth="0.9"/>
+        <controls:SlideOutButton Classes="Add" MultiplierWidth="0"/>
+      </Grid>
+    </Border>
+  </Design.PreviewWith>
+
+  <Styles.Resources>
+    <conv:TranslateButtonConverter x:Key="translateConverter"/>
+    
+    <StreamGeometry x:Key="ButtonBasePath">M 20,0 v 10 h -15 l -5,-5 l 5,-5</StreamGeometry>
+    <StreamGeometry x:Key="AddGLYPH">M 10 0 v 20 m -10 -10 h 20</StreamGeometry>
+    <StreamGeometry x:Key="RemoveGLYPH">M 0 0 L 20 20 M 20 0 L 0 20</StreamGeometry>
+    <StreamGeometry x:Key="EditGLYPH">M 5.9 16.3 l -5.661 1.887 l 1.887 -5.661 z m 11.725 -11.725 a 2.1 2.1 0 0 0 0 -2.965 l -0.809 -0.809 a 2.1 2.1 0 0 0 -2.965 0 l -10.041 10.041 l 3.774 3.774 z</StreamGeometry>
+    <StreamGeometry x:Key="DeselectGLYPH">M 3 0 h -3 v 3 m 4 5 h 4 h 4 m -12 -1 v 2 m 7 -9 h 2 m -2 16 h 2 m 7 -9 v 2 m -3 -9 h 3 v 3 m -13 13 h -3 v -3 m 13 3 h 3 v -3</StreamGeometry>
+  </Styles.Resources>
+
+  <Style Selector="controls|SlideOutButton">
+    <!-- Set Defaults -->
+    <Setter Property="Background" Value="#505050"/>
+    <Setter Property="Width" Value="150"/>
+    <Setter Property="Height" Value="50"/>
+    <Setter Property="MultiplierWidth" Value="0"/>
+    <Setter Property="HorizontalAlignment" Value="Right"/>
+    <Setter Property="Opacity" Value="1"/>
+    
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid Name="PART_Grid">
+          <Viewbox>
+            <Path Fill="{TemplateBinding Background}"
+                  Data="{StaticResource ButtonBasePath}"/>
+          </Viewbox>
+
+          <Grid>
+            <Viewbox RenderTransform="scale(0.7) translate(-5px,0px)"
+                     HorizontalAlignment="Center">
+              <Path Name="PART_Glyph"
+                    Stroke="White"
+                    StrokeThickness="2"/>
+            </Viewbox>
+          </Grid>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^ /template/ Path#PART_AddGlyph">
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform"
+                                       Duration="0:0:0.5"
+                                       Easing="CubicEaseOut"/>
+        </Transitions>
+      </Setter>
+    </Style>
+  </Style>
+
+  <!-- ADD -->
+  <Style Selector="controls|SlideOutButton.Add">
+    <Style Selector="^ /template/ Path#PART_Glyph">
+      <Setter Property="Data" Value="{StaticResource AddGLYPH}"/>
+    </Style>
+
+    <Style Selector="^:pointerover">
+      <Setter Property="Background" Value="#404040"/>
+    </Style>
+
+    <Style Selector="^:pressed">
+      <Setter Property="Background" Value="#303030"/>
+    </Style>
+  </Style>
+
+  <!-- REMOVE -->
+  <Style Selector="controls|SlideOutButton.Remove">
+    <Setter Property="RenderTransform" Value="{Binding $self.Bounds.Width, Converter={StaticResource translateConverter}, ConverterParameter=0.48, Mode=OneWay}"/>
+
+    <Style Selector="^ /template/ Path#PART_Glyph">
+      <Setter Property="Data" Value="{StaticResource RemoveGLYPH}"/>
+    </Style>
+
+    <Setter Property="Background" Value="#704040"/>
+
+    <Style Selector="^:disabled">
+      <Setter Property="RenderTransform" Value="translate(0px,0px)"/>
+      <Setter Property="Opacity" Value="0"/>
+    </Style>
+  </Style>
+
+  <!-- EDIT -->
+  <Style Selector="controls|SlideOutButton.Edit">
+    <Setter Property="RenderTransform" Value="{Binding $self.Bounds.Width, Converter={StaticResource translateConverter}, ConverterParameter=0.96, Mode=OneWay}"/>
+
+    <Setter Property="Background" Value="#407040"/>
+
+    <Style Selector="^ /template/ Path#PART_Glyph">
+      <Setter Property="Data" Value="{StaticResource EditGLYPH}"/>
+      <Setter Property="StrokeThickness" Value="0"/>
+      <Setter Property="Fill" Value="White"/>
+    </Style>
+
+    <Style Selector="^:disabled">
+      <Setter Property="RenderTransform" Value="translate(0px,0px)"/>
+      <Setter Property="Opacity" Value="0"/>
+    </Style>
+    
+  </Style>
+
+  <!-- DESELECT -->
+  <Style Selector="controls|SlideOutButton.Deselect">
+    <Setter Property="RenderTransform" Value="{Binding $self.Bounds.Width, Converter={StaticResource translateConverter}, ConverterParameter=1.44, Mode=OneWay}"/>
+    <Setter Property="Background" Value="#888800"/>
+
+
+    <Style Selector="^:disabled">
+      <Setter Property="RenderTransform" Value="translate(0px,0px)"/>
+      <Setter Property="Opacity" Value="0"/>
+    </Style>
+
+    <Style Selector="^ /template/ Path#PART_Glyph">
+      <Setter Property="Data" Value="{StaticResource DeselectGLYPH}"/>
+    </Style>
+  </Style>
+</Styles>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:EzPasswordManager.ViewModels"
              xmlns:helpers="clr-namespace:EzPasswordManager.Helpers"
+             xmlns:cc="clr-namespace:EzPasswordManager.CustomControls"
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
              x:Class="EzPasswordManager.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -13,12 +14,17 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
+  <UserControl.Styles>
+  </UserControl.Styles>
+  
   <Border>
-    <TransitioningContentControl Content="{Binding CurrentView}">
-      <TransitioningContentControl.PageTransition>
-        <helpers:PageSlideVerticalTransition Duration="0:0:0.5"/>
-      </TransitioningContentControl.PageTransition>
-    </TransitioningContentControl>
+    <Grid>
+      <TransitioningContentControl Content="{Binding CurrentView}">
+        <TransitioningContentControl.PageTransition>
+          <helpers:PageSlideVerticalTransition Duration="0:0:0.5"/>
+        </TransitioningContentControl.PageTransition>
+      </TransitioningContentControl>
+    </Grid>
   </Border>
   
 </UserControl>

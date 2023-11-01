@@ -17,8 +17,13 @@ namespace EzPasswordManager.Converters
 {
     public class TranslateButtonConverter : IValueConverter
     {
+        private int count = 0;
+
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
+            count++;
+
+            Debug.WriteLine(count);
             if (value is Button button)
             {
                 double multiplier = 1;
@@ -41,13 +46,13 @@ namespace EzPasswordManager.Converters
                     double.TryParse(x, out multiplier);
 
                 double translateX = -width * multiplier;
-                Debug.WriteLine(translateX);
 
                 var transform = TransformOperations.CreateBuilder(1);
                 transform.AppendTranslate(translateX, 0);
 
                 return transform.Build();
             }
+            
             
             return null;
         }
