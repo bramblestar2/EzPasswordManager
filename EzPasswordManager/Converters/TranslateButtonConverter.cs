@@ -17,13 +17,8 @@ namespace EzPasswordManager.Converters
 {
     public class TranslateButtonConverter : IValueConverter
     {
-        private int count = 0;
-
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            count++;
-
-            Debug.WriteLine(count);
             if (value is Button button)
             {
                 double multiplier = 1;

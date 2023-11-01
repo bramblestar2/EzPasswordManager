@@ -128,23 +128,25 @@ namespace EzPasswordManager.Views
                     using (FileStream fs = File.Create(absolutePath))
                     using (StreamWriter sw = new StreamWriter(fs))
                     {
+                        string layout = "";
+
+                        layout += "\"Display Name\",";
+                        layout += "\"Username\",";
+                        layout += "\"Password\",";
+                        layout += "\"Email\",";
+                        layout += "\"Website\"";
+
+                        tasks.Add(sw.WriteLineAsync(layout));
+
                         for (int i = 0; i < passwords.Length; i++)
                         {
                             string output = "";
 
-                            if (!string.IsNullOrWhiteSpace(passwords[i].DisplayName))
-                                output += "\"" + passwords[i].DisplayName + "\",";
-                            if (!string.IsNullOrWhiteSpace(passwords[i].Username))
-                                output += "\"" + passwords[i].Username + "\",";
-                            if (!string.IsNullOrWhiteSpace(passwords[i].Password))
-                                output += "\"" + passwords[i].Password + "\",";
-                            if (!string.IsNullOrWhiteSpace(passwords[i].Email))
-                                output += "\"" + passwords[i].Email + "\",";
-                            if (!string.IsNullOrWhiteSpace(passwords[i].Website))
-                                output += "\"" + passwords[i].Website + "\",";
-
-                            if (output.ElementAt(output.Length-1) == ',')
-                                output = output.Remove(output.Length-1);
+                            output += "\"" + passwords[i].DisplayName + "\",";
+                            output += "\"" + passwords[i].Username + "\",";
+                            output += "\"" + passwords[i].Password + "\",";
+                            output += "\"" + passwords[i].Email + "\",";
+                            output += "\"" + passwords[i].Website + "\"";
 
                             tasks.Add(sw.WriteLineAsync(output));
                         }

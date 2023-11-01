@@ -4,6 +4,7 @@ using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
+using Avalonia.Data;
 using Avalonia.Media;
 using Avalonia.Media.Transformation;
 using Avalonia.Styling;
@@ -11,6 +12,8 @@ using Avalonia.VisualTree;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 
 namespace EzPasswordManager.CustomControls
 {
@@ -36,11 +39,33 @@ namespace EzPasswordManager.CustomControls
 
         public SlideOutButton()
         {
-            
-            
-            
-            
-            
+            var bounds = this.GetObservable(Button.BoundsProperty);
+
+            bounds.Subscribe(change =>
+            {
+                UpdatePosition(change);
+            });
+
+            var enabled = this.GetObservable(Button.IsEffectivelyEnabledProperty);
+
+            enabled.Subscribe(enabled =>
+            {
+                UpdatePosition(null);
+            });
+        }
+
+        private void UpdatePosition(Rect? rect)
+        {
+            double newWidth = 0;
+
+            if (this.IsEffectivelyEnabled && rect.HasValue)
+                newWidth = rect.Value.Width;
+            else if (this.IsEffectivelyEnabled && this.Bounds.Width > 0)
+                newWidth = this.Bounds.Width;
+
+            var transform = TransformOperations.CreateBuilder(1);
+            transform.AppendTranslate(-newWidth * MultiplierWidth, 0);
+            this.RenderTransform = transform.Build();
         }
 
         public Transitions CreateTransitions()
@@ -99,45 +124,35 @@ namespace EzPasswordManager.CustomControls
 
             Part_Grid = e.NameScope.Find<Grid>("PART_Grid");
 
-            string type;
-            type = this.Classes.ToList().DefaultIfEmpty("").FirstOrDefault("Add");
-            if (!string.IsNullOrEmpty(type))
+            this.Transitions = CreateTransitions();
+
+            if (this.Classes.Contains("Add"))
             {
-                this.Transitions = CreateTransitions();
                 SetTransitionTimes(TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35));
             }
-            type = "";
 
-            type = this.Classes.ToList().DefaultIfEmpty("").FirstOrDefault("Remove");
-            if (!string.IsNullOrEmpty(type))
+            if (this.Classes.Contains("Remove"))
             {
-                this.Transitions = CreateTransitions();
-                SetTransitionTimes(TimeSpan.FromSeconds(0.45),
-                                   TimeSpan.FromSeconds(0.35),
-                                   TimeSpan.FromSeconds(0.35),
-                                   TimeSpan.FromSeconds(0.35));
-            }
-            type = "";
-
-            type = this.Classes.ToList().DefaultIfEmpty("").FirstOrDefault("Edit");
-            if (!string.IsNullOrEmpty(type))
-            {
-                this.Transitions = CreateTransitions();
                 SetTransitionTimes(TimeSpan.FromSeconds(0.55),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35));
             }
-            type = "";
 
-            type = this.Classes.ToList().DefaultIfEmpty("").FirstOrDefault("Deselect");
-            if (!string.IsNullOrEmpty(type))
+            if (this.Classes.Contains("Edit"))
             {
-                this.Transitions = CreateTransitions();
-                SetTransitionTimes(TimeSpan.FromSeconds(0.65),
+                SetTransitionTimes(TimeSpan.FromSeconds(0.75),
+                                   TimeSpan.FromSeconds(0.35),
+                                   TimeSpan.FromSeconds(0.35),
+                                   TimeSpan.FromSeconds(0.35));
+            }
+
+            if (this.Classes.Contains("Deselect"))
+            {
+                SetTransitionTimes(TimeSpan.FromSeconds(0.95),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35));
