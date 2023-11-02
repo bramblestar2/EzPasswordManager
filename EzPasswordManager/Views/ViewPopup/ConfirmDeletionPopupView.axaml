@@ -6,8 +6,8 @@
              x:Class="EzPasswordManager.Views.ViewPopup.ConfirmDeletionPopupView">
 
   <UserControl.Resources>
-    <StreamGeometry x:Key="Checkmark">M4 12.6111L8.92308 17.5L20 6.5</StreamGeometry>
-    <StreamGeometry x:Key="Close">M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16</StreamGeometry>
+    <StreamGeometry x:Key="Checkmark">M 0 6 l 4.9231 4.8889 l 11.0769 -11</StreamGeometry>
+    <StreamGeometry x:Key="Close">M 8 8 l -4 -4 m 0 0 l -4 -4 m 4 4 l 4 -4 m -4 4 l -4 4</StreamGeometry>
   </UserControl.Resources>
 
   <UserControl.Styles>
@@ -21,9 +21,20 @@
         <ControlTemplate>
           <Border Background="{TemplateBinding Background}"
                   Padding="{TemplateBinding Padding}">
-            <ContentPresenter Content="{TemplateBinding Content}"
-                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                              VerticalAlignment="Center"/>
+            <Viewbox Stretch="Uniform"
+                     StretchDirection="DownOnly"
+                     VerticalAlignment="Stretch">
+              <Border HorizontalAlignment="Center">
+                <Path Data=""
+                      RenderTransform="scale(2)"
+                      HorizontalAlignment="Center"
+                      StrokeLineCap="Round"
+                      Name="PART_Glyph"
+                      Stroke="White"
+                      StrokeThickness="2"
+                      Margin="15"/>
+              </Border>
+            </Viewbox>
           </Border>
         </ControlTemplate>
       </Setter>
@@ -54,6 +65,10 @@
     </Style>
 
     <Style Selector="Button.Confirm">
+      <Style Selector="^ /template/ Path#PART_Glyph">
+        <Setter Property="Data" Value="{DynamicResource Checkmark}"/>
+      </Style>
+      
       <Setter Property="Background" Value="#406040"/>
       <Style Selector="^:pointerover">
         <Setter Property="Background" Value="#408040"/>
@@ -64,6 +79,10 @@
     </Style>
 
     <Style Selector="Button.Cancel">
+      <Style Selector="^ /template/ Path#PART_Glyph">
+        <Setter Property="Data" Value="{DynamicResource Close}"/>
+      </Style>
+      
       <Setter Property="Background" Value="#604040"/>
       <Style Selector="^:pointerover">
         <Setter Property="Background" Value="#804040"/>
