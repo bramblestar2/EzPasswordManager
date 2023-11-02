@@ -8,6 +8,8 @@
     </Border>
   </Design.PreviewWith>
 
+  <StyleInclude Source="/Styles/CustomTooltipStyles.axaml"/>
+  
   <Style Selector="controls|MenuBar">
     <Setter Property="Title" Value="MenuBar Title"/>
     <Setter Property="Background" Value="#151515"/>
@@ -33,6 +35,7 @@
                       Classes="Base Minimize"
                       IsVisible="{TemplateBinding ShowMinimize}"
                       Name="PART_MinimizeButton"
+                      ToolTip.Tip="Minimize"
                       Content="_"/>
 
               <Button VerticalAlignment="Stretch"
@@ -40,6 +43,7 @@
                       Classes="Base Maximize"
                       IsVisible="{TemplateBinding ShowMaximize}"
                       Name="PART_MaximizeButton"
+                      ToolTip.Tip="Maximize"
                       Content="O"/>
 
               <Button VerticalAlignment="Stretch"
@@ -47,6 +51,7 @@
                       Classes="Base Close"
                       IsVisible="{TemplateBinding ShowClose}"
                       Name="PART_CloseButton"
+                      ToolTip.Tip="Close"
                       Content="X"/>
             </StackPanel>
             

@@ -11,7 +11,7 @@ namespace EzPasswordManager.Helpers
 {
     public static class AccountManager
     {
-        public static readonly string DefaultPasswordDirectory = Path.Combine(Directory.GetCurrentDirectory(), "EZPassMangr\\");
+        public static readonly string DefaultPasswordDirectory = Path.Combine(Directory.GetCurrentDirectory(), "EZPassMangr");
 
         public static void CreateLogin(string username, string password, string? directory = null)
         {

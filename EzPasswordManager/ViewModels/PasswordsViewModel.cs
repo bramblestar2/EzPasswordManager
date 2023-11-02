@@ -1,5 +1,6 @@
 ﻿using EzPasswordManager.DataTypes;
 using EzPasswordManager.Helpers;
+using EzPasswordManager.Views;
 using EzPasswordManager.Views.ViewPopup;
 using Newtonsoft.Json;
 using ReactiveUI;
@@ -9,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reactive;
+using System.Security.AccessControl;
 
 namespace EzPasswordManager.ViewModels
 {
@@ -49,6 +51,8 @@ namespace EzPasswordManager.ViewModels
             set => this.RaiseAndSetIfChanged(ref _addPasswordInfo, value);
         }
 
+        public PasswordView _passwordView { get; set; }
+
         public readonly string DefaultPasswordDirectory;
 
         #region Commands
@@ -62,6 +66,8 @@ namespace EzPasswordManager.ViewModels
         public ReactiveCommand<Unit, Unit> RemovePasswordCommand { get; }
         public ReactiveCommand<Unit, Unit> EditPasswordCommand { get; }
         public ReactiveCommand<Unit, Unit> DeselectPasswordCommand { get; }
+
+        public ReactiveCommand<Unit, Unit> DeleteAccountCommand { get; }
 
         #endregion
 
@@ -169,6 +175,12 @@ namespace EzPasswordManager.ViewModels
                 this.PasswordsListSelectedIndex = -1;
             }, canDeselectPassword);
 
+            //Delete Account Button (MAIN)
+            DeleteAccountCommand = ReactiveCommand.Create(() =>
+            {
+
+            });
+
             #endregion
         }
 
@@ -190,10 +202,11 @@ namespace EzPasswordManager.ViewModels
             }
         }
 
-
+        #region Keys
         private byte[] IV = { 210, 29, 113, 228, 186, 195, 253, 152, 9, 63, 188, 36, 236, 100, 59, 98 };
         private byte[] Key = { 11, 228, 250, 9, 33, 100, 137, 95, 173, 75, 170, 180, 233, 103, 227, 158,
                         225, 165, 215, 146, 170, 192, 142, 251, 64, 213, 222, 178, 148, 249, 36, 102 };
+        #endregion
 
         /// <summary>
         /// Loads passwords from username file in provided directory
@@ -286,7 +299,22 @@ namespace EzPasswordManager.ViewModels
 
         public void UploadPasswordsToDatabase()
         {
-
+            //const string connectionUri = "mongodb+srv://jatcat151:<password>@cluster0.pk6ceqb.mongodb.net/?retryWrites=true&w=majority";
+            //var settings = MongoClientSettings.FromConnectionString(connectionUri);
+            //// Set the ServerApi field of the settings object to Stable API version 1
+            //settings.ServerApi = new ServerApi(ServerApiVersion.V1);
+            //// Create a new client and connect to the server
+            //var client = new MongoClient(settings);
+            //// Send a ping to confirm a successful connection
+            //try
+            //{
+            //    var result = client.GetDatabase("admin").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
+            //    Debug.WriteLine("Pinged your deployment. You successfully connected to MongoDB!");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(ex);
+            //}
         }
     }
 }

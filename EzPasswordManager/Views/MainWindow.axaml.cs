@@ -7,6 +7,7 @@ using MongoDB.Driver;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -18,22 +19,10 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
-        //const string connectionUri = "mongodb+srv://jatcat151:<password>@cluster0.pk6ceqb.mongodb.net/?retryWrites=true&w=majority";
-        //var settings = MongoClientSettings.FromConnectionString(connectionUri);
-        //// Set the ServerApi field of the settings object to Stable API version 1
-        //settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-        //// Create a new client and connect to the server
-        //var client = new MongoClient(settings);
-        //// Send a ping to confirm a successful connection
-        //try
-        //{
-        //    var result = client.GetDatabase("admin").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
-        //    Debug.WriteLine("Pinged your deployment. You successfully connected to MongoDB!");
-        //}
-        //catch (Exception ex)
-        //{
-        //    Debug.WriteLine(ex);
-        //}
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            MainGrid.RowDefinitions[0].Height = new GridLength(0);
+        }
     }
 
     protected override void OnClosed(EventArgs e)

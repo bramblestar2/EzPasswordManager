@@ -136,7 +136,7 @@ namespace EzPasswordManager.CustomControls
 
             if (this.Classes.Contains("Remove"))
             {
-                SetTransitionTimes(TimeSpan.FromSeconds(0.55),
+                SetTransitionTimes(TimeSpan.FromSeconds(0.45),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35));
@@ -144,7 +144,7 @@ namespace EzPasswordManager.CustomControls
 
             if (this.Classes.Contains("Edit"))
             {
-                SetTransitionTimes(TimeSpan.FromSeconds(0.75),
+                SetTransitionTimes(TimeSpan.FromSeconds(0.55),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35));
@@ -152,7 +152,7 @@ namespace EzPasswordManager.CustomControls
 
             if (this.Classes.Contains("Deselect"))
             {
-                SetTransitionTimes(TimeSpan.FromSeconds(0.95),
+                SetTransitionTimes(TimeSpan.FromSeconds(0.65),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35),
                                    TimeSpan.FromSeconds(0.35));

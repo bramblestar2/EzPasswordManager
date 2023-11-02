@@ -6,7 +6,6 @@
         xmlns:views="clr-namespace:EzPasswordManager.Views"
         xmlns:cc="clr-namespace:EzPasswordManager.Views.MainWindowViews"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
-        Width="400" Height="480"
         WindowStartupLocation="CenterScreen"
         x:Class="EzPasswordManager.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -17,6 +16,7 @@
         
         MinWidth="300" MaxWidth="700"
         MinHeight="350" MaxHeight="600"
+        Width="400" Height="480"
         
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
@@ -30,7 +30,8 @@
   </Window.Styles>
   
   <Border Background="#252525">
-    <Grid RowDefinitions="30,*">
+    <Grid RowDefinitions="30,*"
+          x:Name="MainGrid">
 
       <cc:MenuBar Grid.Row="0"
                   Close="CloseClicked"

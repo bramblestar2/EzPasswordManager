@@ -1,0 +1,31 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
+             x:Class="EzPasswordManager.Views.ViewPopup.ConfirmDeletionPopupView">
+
+  <Border Background="#55000000">
+    <Grid Margin="50"
+          RowDefinitions="Auto,Auto"
+          VerticalAlignment="Center">
+      <TextBlock Text="Are you sure you want to delete this account?"
+                 TextWrapping="Wrap"
+                 TextAlignment="Center"
+                 Grid.Row="0"
+                 Margin="0,50"/>
+
+      <Grid Grid.Row="1"
+            ColumnDefinitions="*,*">
+        <Button Grid.Column="0"
+                Content="Yes"
+                HorizontalAlignment="Center"/>
+
+        <Button Grid.Column="1"
+                Content="Cancel"
+                HorizontalAlignment="Center"/>
+      </Grid>
+    </Grid>
+  </Border>
+  
+</UserControl>

@@ -1,0 +1,33 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <Button Width="50"
+                    Height="50"
+                    ToolTip.Tip="Hello Button"/>
+        </Border>
+    </Design.PreviewWith>
+
+  <Style Selector="ToolTip">
+    <Setter Property="Background" Value="#383838"/>
+    <Setter Property="BorderThickness" Value="1"/>
+    <Setter Property="BorderBrush" Value="#202020"/>
+    
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Padding="{TemplateBinding Padding}"
+                Margin="{TemplateBinding Margin}"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                IsHitTestVisible="False">
+          <ContentPresenter Name="PART_ContentPresenter"
+                            MaxWidth="{TemplateBinding MaxWidth}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            TextBlock.TextWrapping="Wrap"/>
+        </Border>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+</Styles>

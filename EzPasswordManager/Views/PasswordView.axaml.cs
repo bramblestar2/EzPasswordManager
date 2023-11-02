@@ -63,6 +63,8 @@ namespace EzPasswordManager.Views
             viewModel = new PasswordsViewModel();
             this.DataContext = viewModel;
 
+            viewModel._passwordView = this;
+
             _currentUsername = username;
 
             viewModel.LoadPasswords(username, directory);
