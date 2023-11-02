@@ -5,6 +5,75 @@
              mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="450"
              x:Class="EzPasswordManager.Views.ViewPopup.ConfirmDeletionPopupView">
 
+  <UserControl.Resources>
+    <StreamGeometry x:Key="Checkmark">M4 12.6111L8.92308 17.5L20 6.5</StreamGeometry>
+    <StreamGeometry x:Key="Close">M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16</StreamGeometry>
+  </UserControl.Resources>
+
+  <UserControl.Styles>
+    <Style Selector="Button.Base">
+      <Setter Property="Width" Value="100"/>
+      <Setter Property="Height" Value="50"/>
+      <Setter Property="Padding" Value="0"/>
+      <Setter Property="Background" Value="#404040"/>
+
+      <Setter Property="Template">
+        <ControlTemplate>
+          <Border Background="{TemplateBinding Background}"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter Content="{TemplateBinding Content}"
+                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                              VerticalAlignment="Center"/>
+          </Border>
+        </ControlTemplate>
+      </Setter>
+
+      <Setter Property="Transitions">
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform"
+                                         Duration="0:0:0.25"
+                                         Easing="CubicEaseOut"/>
+          <BrushTransition Property="Background"
+                           Duration="0:0:0.25"
+                           Easing="CubicEaseOut"/>
+          <DoubleTransition Property="Width"
+                            Duration="0:0:0.25"
+                            Easing="CubicEaseOut"/>
+        </Transitions>
+      </Setter>
+
+      <Style Selector="^:pointerover">
+        <Setter Property="Width" Value="110"/>
+        <Setter Property="Background" Value="#303030"/>
+      </Style>
+      
+      <Style Selector="^:pressed">
+        <Setter Property="Background" Value="#202020"/>
+        <Setter Property="Width" Value="70"/>
+      </Style>
+    </Style>
+
+    <Style Selector="Button.Confirm">
+      <Setter Property="Background" Value="#406040"/>
+      <Style Selector="^:pointerover">
+        <Setter Property="Background" Value="#408040"/>
+      </Style>
+      <Style Selector="^:pressed">
+        <Setter Property="Background" Value="#40A040"/>
+      </Style>
+    </Style>
+
+    <Style Selector="Button.Cancel">
+      <Setter Property="Background" Value="#604040"/>
+      <Style Selector="^:pointerover">
+        <Setter Property="Background" Value="#804040"/>
+      </Style>
+      <Style Selector="^:pressed">
+        <Setter Property="Background" Value="#A04040"/>
+      </Style>
+    </Style>
+  </UserControl.Styles>
+  
   <Border Background="#55000000">
     <Grid Margin="50"
           RowDefinitions="Auto,Auto"
@@ -19,10 +88,14 @@
             ColumnDefinitions="*,*">
         <Button Grid.Column="0"
                 Content="Yes"
+                Classes="Base Confirm"
+                TextBlock.TextAlignment="Center"
                 HorizontalAlignment="Center"/>
 
         <Button Grid.Column="1"
                 Content="Cancel"
+                Classes="Base Cancel"
+                TextBlock.TextAlignment="Center"
                 HorizontalAlignment="Center"/>
       </Grid>
     </Grid>
