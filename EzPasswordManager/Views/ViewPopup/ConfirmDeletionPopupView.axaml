@@ -16,26 +16,31 @@
       <Setter Property="Height" Value="50"/>
       <Setter Property="Padding" Value="0"/>
       <Setter Property="Background" Value="#404040"/>
-
+      <Setter Property="CornerRadius" Value="0"/>
+      
       <Setter Property="Template">
         <ControlTemplate>
-          <Border Background="{TemplateBinding Background}"
-                  Padding="{TemplateBinding Padding}">
-            <Viewbox Stretch="Uniform"
-                     StretchDirection="DownOnly"
-                     VerticalAlignment="Stretch">
-              <Border HorizontalAlignment="Center">
-                <Path Data=""
-                      RenderTransform="scale(2)"
-                      HorizontalAlignment="Center"
-                      StrokeLineCap="Round"
-                      Name="PART_Glyph"
-                      Stroke="White"
-                      StrokeThickness="2"
-                      Margin="15"/>
-              </Border>
-            </Viewbox>
-          </Border>
+          <Grid>
+            <Border Background="{TemplateBinding Background}"
+                    Padding="{TemplateBinding Padding}"
+                    Name="PART_Border"
+                    CornerRadius="{TemplateBinding CornerRadius}"/>
+            
+              <Viewbox Stretch="Uniform"
+                       StretchDirection="DownOnly"
+                       VerticalAlignment="Stretch">
+                <Border HorizontalAlignment="Center">
+                  <Path Data=""
+                        RenderTransform="scale(2)"
+                        HorizontalAlignment="Center"
+                        StrokeLineCap="Round"
+                        Name="PART_Glyph"
+                        Stroke="White"
+                        StrokeThickness="2"
+                        Margin="15"/>
+                </Border>
+              </Viewbox>
+          </Grid>
         </ControlTemplate>
       </Setter>
 
@@ -50,17 +55,38 @@
           <DoubleTransition Property="Width"
                             Duration="0:0:0.25"
                             Easing="CubicEaseOut"/>
+          <CornerRadiusTransition Property="CornerRadius"
+                                  Duration="0:0:0.25"
+                                  Easing="CubicEaseOut"/>
         </Transitions>
       </Setter>
 
+      <Style Selector="^ /template/ Border#PART_Border">
+        <Setter Property="Transitions">
+          <Transitions>
+            <TransformOperationsTransition Property="RenderTransform"
+                                           Duration="0:0:0.25"
+                                           Easing="CubicEaseOut"/>
+          </Transitions>
+        </Setter>
+      </Style>
+
       <Style Selector="^:pointerover">
-        <Setter Property="Width" Value="110"/>
         <Setter Property="Background" Value="#303030"/>
+        <Setter Property="CornerRadius" Value="2"/>
+        
+        <Style Selector="^ /template/ Border#PART_Border">
+          <Setter Property="RenderTransform" Value="scale(0.8,1)"/>
+        </Style>
       </Style>
       
       <Style Selector="^:pressed">
         <Setter Property="Background" Value="#202020"/>
-        <Setter Property="Width" Value="70"/>
+        <Setter Property="CornerRadius" Value="10"/>
+
+        <Style Selector="^ /template/ Border#PART_Border">
+          <Setter Property="RenderTransform" Value="scale(0.6,1)"/>
+        </Style>
       </Style>
     </Style>
 
@@ -93,7 +119,8 @@
     </Style>
   </UserControl.Styles>
   
-  <Border Background="#55000000">
+  <Border Background="#99000000">
+    
     <Grid Margin="50"
           RowDefinitions="Auto,Auto"
           VerticalAlignment="Center">
@@ -109,12 +136,14 @@
                 Content="Yes"
                 Classes="Base Confirm"
                 TextBlock.TextAlignment="Center"
+                Click="YesButton"
                 HorizontalAlignment="Center"/>
 
         <Button Grid.Column="1"
                 Content="Cancel"
                 Classes="Base Cancel"
                 TextBlock.TextAlignment="Center"
+                Click="CancelButton"
                 HorizontalAlignment="Center"/>
       </Grid>
     </Grid>

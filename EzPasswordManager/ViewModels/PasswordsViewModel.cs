@@ -1,4 +1,6 @@
-﻿using EzPasswordManager.DataTypes;
+﻿using Avalonia.Interactivity;
+using EzPasswordManager.CustomArgs;
+using EzPasswordManager.DataTypes;
 using EzPasswordManager.Helpers;
 using EzPasswordManager.Views;
 using EzPasswordManager.Views.ViewPopup;
@@ -54,6 +56,8 @@ namespace EzPasswordManager.ViewModels
         public PasswordView _passwordView { get; set; }
 
         public readonly string DefaultPasswordDirectory;
+
+        private string? CurrentUsername;
 
         #region Commands
 
@@ -178,11 +182,19 @@ namespace EzPasswordManager.ViewModels
             //Delete Account Button (MAIN)
             DeleteAccountCommand = ReactiveCommand.Create(() =>
             {
-
+                PasswordPopupView = new ConfirmDeletionPopupView(this);
+                PasswordsPopupVisible = true;
             });
 
             #endregion
         }
+
+
+        public void DeleteCurrentAccount()
+        {
+            _passwordView.RaiseEvent(new UserLoginArgs(CurrentUsername, "", null, PasswordView.DeleteAccountEvent, _passwordView));
+        }
+
 
         public void CreateAccount(string username, string directory)
         {
@@ -220,6 +232,8 @@ namespace EzPasswordManager.ViewModels
             CheckDirectory(ref directory);
 
             CreateAccount(username, directory);
+
+            CurrentUsername = username;
 
             List<PasswordInfoStructure>? items = null;
             using (StreamReader r = new StreamReader(Path.Combine(directory, username)))
@@ -295,26 +309,6 @@ namespace EzPasswordManager.ViewModels
         public void RemovePassword(int index)
         {
             Passwords.RemoveAt(index);
-        }
-
-        public void UploadPasswordsToDatabase()
-        {
-            //const string connectionUri = "mongodb+srv://jatcat151:<password>@cluster0.pk6ceqb.mongodb.net/?retryWrites=true&w=majority";
-            //var settings = MongoClientSettings.FromConnectionString(connectionUri);
-            //// Set the ServerApi field of the settings object to Stable API version 1
-            //settings.ServerApi = new ServerApi(ServerApiVersion.V1);
-            //// Create a new client and connect to the server
-            //var client = new MongoClient(settings);
-            //// Send a ping to confirm a successful connection
-            //try
-            //{
-            //    var result = client.GetDatabase("admin").RunCommand<BsonDocument>(new BsonDocument("ping", 1));
-            //    Debug.WriteLine("Pinged your deployment. You successfully connected to MongoDB!");
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.WriteLine(ex);
-            //}
         }
     }
 }

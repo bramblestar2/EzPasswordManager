@@ -85,7 +85,7 @@ namespace EzPasswordManager.Views
 
         private void DeleteAccountClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            this.RaiseEvent(new UserLoginArgs(_currentUsername, "", null, DeleteAccountEvent, this));
+            //this.RaiseEvent(new UserLoginArgs(_currentUsername, "", null, DeleteAccountEvent, this));
         }
 
         private async void ExportPasswordsClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
