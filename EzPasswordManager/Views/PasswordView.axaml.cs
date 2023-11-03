@@ -1,16 +1,11 @@
-using Avalonia;
-using Avalonia.Animation.Easings;
 using Avalonia.Controls;
-using Avalonia.Dialogs;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using Avalonia.Platform.Storage;
 using EzPasswordManager.CustomArgs;
 using EzPasswordManager.DataTypes;
 using EzPasswordManager.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
