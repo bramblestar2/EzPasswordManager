@@ -27,18 +27,35 @@
         </TransitioningContentControl.PageTransition>
       </TransitioningContentControl>
 
-      <cc:PasswordCard Width="200"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center">
-        <cc:PasswordCard.PasswordInfo>
-          <datatypes:PasswordInfoStructure DisplayName="Display name"
-                                           Username="User"
-                                           Email="Email"
-                                           Notes="Notes"
-                                           Website="somewebsite"
-                                           Password="Password"/>
-        </cc:PasswordCard.PasswordInfo>
-      </cc:PasswordCard>
+      <ListBox Background="Transparent"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Width="300">
+
+        <cc:PasswordCard HorizontalAlignment="Stretch"
+                         VerticalAlignment="Center">
+          <cc:PasswordCard.PasswordInfo>
+            <datatypes:PasswordInfoStructure DisplayName="Display name"
+                                             Username="User"
+                                             Email="Email"
+                                             Notes="NotesNotesNotesNotesNotesNotesNotesNotesNotesNotesNotesNotesNotesNotesNotesNotesNotesNotes"
+                                             Website="somewebsite"
+                                             Password="Password"/>
+          </cc:PasswordCard.PasswordInfo>
+        </cc:PasswordCard>
+
+        <cc:PasswordCard HorizontalAlignment="Stretch"
+                         VerticalAlignment="Center">
+          <cc:PasswordCard.PasswordInfo>
+            <datatypes:PasswordInfoStructure DisplayName="Display name"
+                                             Username="User"
+                                             Email="Email"
+                                             Notes="Something"
+                                             Website="somewebsite"
+                                             Password="Password"/>
+          </cc:PasswordCard.PasswordInfo>
+        </cc:PasswordCard>
+      </ListBox>
     </Grid>
   </Border>
   

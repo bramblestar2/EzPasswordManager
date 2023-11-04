@@ -5,10 +5,11 @@ using Avalonia.Data;
 using Avalonia.Media;
 using EzPasswordManager.DataTypes;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace EzPasswordManager.CustomControls
 {
-    public class PasswordCard : TemplatedControl
+    public class PasswordCard : ListBoxItem
     {
         public static readonly StyledProperty<PasswordInfoStructure?> PasswordInfoProperty =
             AvaloniaProperty.Register<PasswordCard, PasswordInfoStructure?>(nameof(Background));
@@ -18,6 +19,14 @@ namespace EzPasswordManager.CustomControls
             get { return GetValue(PasswordInfoProperty); }
             set { SetValue(PasswordInfoProperty, value); }
         }
+
+
+        public static readonly DirectProperty<PasswordCard, double?> OpenHeightProperty =
+            AvaloniaProperty.RegisterDirect<PasswordCard, double?>(
+                nameof(OpenHeight),
+                o => o.OpenHeight
+                );
+
 
         private string? something { get; set; }
 
@@ -29,22 +38,16 @@ namespace EzPasswordManager.CustomControls
         private TextBlock NotesTextblock { get; set; }
         private Border Border { get; set; }
 
-        private double? _MaxHeight;
+        private double? _openHeight;
+        public double? OpenHeight
+        {
+            get { return _openHeight; }
+            private set { SetAndRaise(OpenHeightProperty, ref _openHeight, value); }
+        }
 
         public PasswordCard()
         {
-            DataContext = this;
-            this.SizeChanged += SetMaxHeight;
-        }
-
-        private void SetMaxHeight(object? sender, SizeChangedEventArgs e)
-        {
-            if (_MaxHeight is null)
-                _MaxHeight = e.NewSize.Height;
-
-            Debug.WriteLine(_MaxHeight);
-
-            this.SizeChanged -= SetMaxHeight;
+            
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -98,8 +101,6 @@ namespace EzPasswordManager.CustomControls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            Debug.WriteLine(availableSize);
-
             return base.MeasureOverride(availableSize);
         }
     }
