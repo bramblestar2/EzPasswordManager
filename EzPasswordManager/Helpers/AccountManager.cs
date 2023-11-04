@@ -1,4 +1,5 @@
-﻿using DynamicData;
+﻿using Avalonia.Controls;
+using DynamicData;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -65,7 +66,6 @@ namespace EzPasswordManager.Helpers
                     }
                 }
             }
-
             return false;
         }
 
