@@ -131,7 +131,7 @@ namespace EzPasswordManager.Views
                         layout += "\"Username\",";
                         layout += "\"Password\",";
                         layout += "\"Email\",";
-                        layout += "\"Website\"";
+                        layout += "\"Website\",";
                         layout += "\"Notes\"";
 
                         tasks.Add(sw.WriteLineAsync(layout));
@@ -144,7 +144,7 @@ namespace EzPasswordManager.Views
                             output += "\"" + passwords[i].Username + "\",";
                             output += "\"" + passwords[i].Password + "\",";
                             output += "\"" + passwords[i].Email + "\",";
-                            output += "\"" + passwords[i].Website + "\"";
+                            output += "\"" + passwords[i].Website + "\",";
                             output += "\"" + passwords[i].Notes + "\"";
 
                             tasks.Add(sw.WriteLineAsync(output));
