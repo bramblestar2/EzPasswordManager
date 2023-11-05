@@ -30,13 +30,14 @@ namespace EzPasswordManager.CustomControls
 
         private string? something { get; set; }
 
-        private TextBlock DisplayNameTextblock { get; set; }
-        private TextBlock UsernameTextblock { get; set; }
-        private TextBlock PasswordTextblock { get; set; }
-        private TextBlock EmailTextblock { get; set; }
-        private TextBlock WebsiteTextblock { get; set; }
-        private TextBlock NotesTextblock { get; set; }
-        private Border Border { get; set; }
+        private TextBlock PartDisplayNameTextblock { get; set; }
+        private TextBlock PartUsernameTextblock { get; set; }
+        private TextBlock PartPasswordTextblock { get; set; }
+        private TextBlock PartEmailTextblock { get; set; }
+        private TextBlock PartWebsiteTextblock { get; set; }
+        private TextBlock PartNotesTextblock { get; set; }
+        private Border PartBorder { get; set; }
+        private Grid PartGrid { get; set; }
 
         private double? _openHeight;
         public double? OpenHeight
@@ -54,45 +55,50 @@ namespace EzPasswordManager.CustomControls
         {
             base.OnApplyTemplate(e);
 
-            Border = e.NameScope.Find<Border>("PART_Border");
+            PartBorder = e.NameScope.Find<Border>("PART_Border");
+            PartGrid = e.NameScope.Find<Grid>("PART_Grid");
+            PartGrid.SizeChanged += (_s, _e) =>
+            {
+                Debug.WriteLine(_e.NewSize);
+            };
 
-            DisplayNameTextblock = e.NameScope.Find<TextBlock>("PART_DisplayNameText");
-            DisplayNameTextblock.Bind(TextBlock.TextProperty, new Binding
+            PartDisplayNameTextblock = e.NameScope.Find<TextBlock>("PART_DisplayNameText");
+            PartDisplayNameTextblock.Bind(TextBlock.TextProperty, new Binding
             {
                 Source = PasswordInfo,
                 Path = "DisplayName"
             });
 
-            UsernameTextblock = e.NameScope.Find<TextBlock>("PART_UsernameText");
-            UsernameTextblock.Bind(TextBlock.TextProperty, new Binding
+            PartUsernameTextblock = e.NameScope.Find<TextBlock>("PART_UsernameText");
+            PartUsernameTextblock.Bind(TextBlock.TextProperty, new Binding
             {
                 Source = PasswordInfo,
                 Path = "Username"
             });
 
-            PasswordTextblock = e.NameScope.Find<TextBlock>("PART_PasswordText");
-            PasswordTextblock.Bind(TextBlock.TextProperty, new Binding
+            PartPasswordTextblock = e.NameScope.Find<TextBlock>("PART_PasswordText");
+            PartPasswordTextblock.Bind(TextBlock.TextProperty, new Binding
             {
                 Source = PasswordInfo,
                 Path = "Password"
             });
 
-            EmailTextblock = e.NameScope.Find<TextBlock>("PART_EmailText");
-            EmailTextblock.Bind(TextBlock.TextProperty, new Binding
+            PartEmailTextblock = e.NameScope.Find<TextBlock>("PART_EmailText");
+            PartEmailTextblock.Bind(TextBlock.TextProperty, new Binding
             {
                 Source = PasswordInfo,
                 Path = "Email"
             });
 
-            WebsiteTextblock = e.NameScope.Find<TextBlock>("PART_WebsiteText");
-            WebsiteTextblock.Bind(TextBlock.TextProperty, new Binding
+            PartWebsiteTextblock = e.NameScope.Find<TextBlock>("PART_WebsiteText");
+            PartWebsiteTextblock.Bind(TextBlock.TextProperty, new Binding
             {
                 Source = PasswordInfo,
                 Path = "Website"
             });
 
-            NotesTextblock = e.NameScope.Find<TextBlock>("PART_NotesText");
-            NotesTextblock.Bind(TextBlock.TextProperty, new Binding
+            PartNotesTextblock = e.NameScope.Find<TextBlock>("PART_NotesText");
+            PartNotesTextblock.Bind(TextBlock.TextProperty, new Binding
             {
                 Source = PasswordInfo,
                 Path = "Notes"
