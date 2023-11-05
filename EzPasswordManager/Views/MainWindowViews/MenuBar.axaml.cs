@@ -4,7 +4,6 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Interactivity;
 using ReactiveUI;
 using System;
-using System.Diagnostics;
 using System.Reactive;
 
 namespace EzPasswordManager.Views.MainWindowViews
