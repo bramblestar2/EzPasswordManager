@@ -16,7 +16,6 @@
   </Design.DataContext>
 
   <UserControl.Styles>
-    <StyleInclude Source="/CustomControls/PasswordCard.axaml"/>
   </UserControl.Styles>
   
   <Border>

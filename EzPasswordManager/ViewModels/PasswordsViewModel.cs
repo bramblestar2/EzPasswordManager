@@ -1,5 +1,4 @@
-﻿using Avalonia.Interactivity;
-using EzPasswordManager.CustomArgs;
+﻿using EzPasswordManager.CustomArgs;
 using EzPasswordManager.DataTypes;
 using EzPasswordManager.Helpers;
 using EzPasswordManager.Views;
@@ -12,7 +11,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reactive;
-using System.Security.AccessControl;
 
 namespace EzPasswordManager.ViewModels
 {

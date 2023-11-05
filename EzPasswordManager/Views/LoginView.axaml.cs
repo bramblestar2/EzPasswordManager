@@ -3,7 +3,6 @@ using Avalonia.Interactivity;
 using EzPasswordManager.CustomArgs;
 using EzPasswordManager.ViewModels;
 using System;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace EzPasswordManager.Views

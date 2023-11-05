@@ -1,9 +1,7 @@
 ﻿using EzPasswordManager.CustomArgs;
 using EzPasswordManager.Helpers;
 using EzPasswordManager.Views;
-using Newtonsoft.Json;
 using ReactiveUI;
-using System.Diagnostics;
 
 namespace EzPasswordManager.ViewModels;
 

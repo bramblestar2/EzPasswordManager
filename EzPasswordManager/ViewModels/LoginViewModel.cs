@@ -1,17 +1,9 @@
-﻿using Avalonia.Interactivity;
-using EzPasswordManager.CustomArgs;
+﻿using EzPasswordManager.CustomArgs;
 using EzPasswordManager.Helpers;
 using EzPasswordManager.Views;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reactive;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace EzPasswordManager.ViewModels
 {

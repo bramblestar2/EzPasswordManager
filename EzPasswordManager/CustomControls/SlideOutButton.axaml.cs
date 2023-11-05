@@ -3,17 +3,9 @@ using Avalonia.Animation;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
-using Avalonia.Controls.Shapes;
-using Avalonia.Data;
-using Avalonia.Media;
 using Avalonia.Media.Transformation;
-using Avalonia.Styling;
-using Avalonia.VisualTree;
 using System;
-using System.Diagnostics;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
 
 namespace EzPasswordManager.CustomControls
 {
