@@ -1,0 +1,46 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20"
+                Background="#002599">
+          <ScrollViewer Width="200"
+                        Height="150">
+            <Border Height="300"
+                    Background="#AA000000">
+              
+            </Border>
+          </ScrollViewer>
+        </Border>
+    </Design.PreviewWith>
+
+  <Style Selector="ScrollBar /template/ RepeatButton">
+    <Setter Property="IsVisible" Value="False"/>
+  </Style>
+  <Style Selector="ScrollBar[IsExpanded=true] /template/ Border">
+    <Setter Property="Width" Value="5"/>
+    <Setter Property="Margin" Value="10"/>
+    <Setter Property="ClipToBounds" Value="True"/>
+    <Setter Property="CornerRadius" Value="2"/>
+  </Style>
+  <Style Selector="ScrollBar[IsExpanded=true] /template/ Rectangle">
+    <Setter Property="Fill" Value="#222222"/>
+  </Style>
+  <Style Selector="ScrollBar[IsExpanded=true] /template/ Thumb /template/ Border">
+    <Setter Property="ClipToBounds" Value="True"/>
+    <Setter Property="CornerRadius" Value="2"/>
+    <Setter Property="Width" Value="5"/>
+  </Style>
+  <Style Selector="ScrollBar[IsExpanded=true] /template/ Thumb">
+    <Setter Property="Background" Value="#999999"/>
+    <Setter Property="Cursor" Value="Hand"/>
+    <Setter Property="CornerRadius" Value="3"/>
+  </Style>
+
+  <Style Selector="ScrollBar /template/ Thumb.thumb:pointerover">
+    <Setter Property="Background" Value="#0000FF" />
+  </Style>
+
+  <Style Selector="ScrollBar /template/ Thumb.thumb:pressed">
+    <Setter Property="Background" Value="#FF0000" />
+  </Style>
+</Styles>
