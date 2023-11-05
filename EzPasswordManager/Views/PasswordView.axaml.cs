@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace EzPasswordManager.Views
@@ -144,8 +145,8 @@ namespace EzPasswordManager.Views
                             output += "\"" + passwords[i].Username + "\",";
                             output += "\"" + passwords[i].Password + "\",";
                             output += "\"" + passwords[i].Email + "\",";
-                            output += "\"" + passwords[i].Website + "\"";
-                            output += "\"" + passwords[i].Notes + "\"";
+                            output += "\"" + passwords[i].Website + "\",";
+                            output += "\"" + Regex.Replace(passwords[i].Notes.ReplaceLineEndings("\n"), @"\t|\n|\r", @" (NEWLINE) ") + "\"";
 
                             tasks.Add(sw.WriteLineAsync(output));
                         }
