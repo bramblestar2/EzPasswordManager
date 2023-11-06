@@ -208,7 +208,10 @@ namespace EzPasswordManager.ViewModels
             {
                 directory = DefaultPasswordDirectory;
                 if (!Directory.Exists(directory))
-                    Directory.CreateDirectory(directory);
+                {
+                    var dir = Directory.CreateDirectory(directory);
+                    dir.Attributes = FileAttributes.Directory | FileAttributes.Hidden | FileAttributes.NotContentIndexed;
+                }
             }
         }
 
